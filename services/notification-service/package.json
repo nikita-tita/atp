@@ -1,0 +1,29 @@
+{
+  "name": "atp-notification-service",
+  "version": "1.0.0",
+  "description": "ATP Platform Notification Service",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo 'Notification service running'"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
+  "keywords": [
+    "notification",
+    "email",
+    "sms",
+    "sendgrid",
+    "twilio",
+    "atp-platform"
+  ],
+  "author": "ATP Platform Team",
+  "license": "MIT"
+}
