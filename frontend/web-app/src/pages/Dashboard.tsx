@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { 
   UserIcon,
-  BuildingOfficeIcon,
   CreditCardIcon,
   DocumentTextIcon,
   BellIcon,
@@ -13,20 +13,40 @@ import {
   PencilIcon,
   TrashIcon,
   ShieldCheckIcon,
-  ClockIcon,
-  CheckCircleIcon,
-  XCircleIcon,
-  ExclamationTriangleIcon,
-  PhoneIcon,
-  EnvelopeIcon,
-  MapPinIcon
+  CheckCircleIcon
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 import AircraftFormModal from '../components/AircraftFormModal';
 import ComplianceDetailModal from '../components/ComplianceDetailModal';
+import ChatModal from '../components/ChatModal';
+import type { AircraftFormData, ComplianceRequest } from '../types';
+
+// Интерфейсы для mock данных
+interface ListingData {
+  id: string;
+  title: string;
+  status: string;
+  views: number;
+  inquiries: number;
+  price: number;
+  currency: string;
+  image: string;
+  complianceRequests: number;
+  reservations: number;
+}
+
+interface ComplianceData {
+  id: string;
+  aircraft: string;
+  buyer: string;
+  status: string;
+  date: string;
+  price: number;
+}
 
 const Dashboard: React.FC = () => {
   const { user, updateUser } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileData, setProfileData] = useState({
@@ -34,7 +54,7 @@ const Dashboard: React.FC = () => {
     lastName: user?.lastName || '',
     email: user?.email || '',
     phone: '',
-    company: user?.companyName || '',
+    company: '',
     position: '',
     location: '',
     bio: ''
@@ -43,8 +63,9 @@ const Dashboard: React.FC = () => {
   // States for modals
   const [isAircraftFormOpen, setIsAircraftFormOpen] = useState(false);
   const [isComplianceDetailOpen, setIsComplianceDetailOpen] = useState(false);
-  const [editingAircraft, setEditingAircraft] = useState<any>(null);
-  const [selectedCompliance, setSelectedCompliance] = useState<any>(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [editingAircraft, setEditingAircraft] = useState<AircraftFormData | null>(null);
+  const [selectedCompliance, setSelectedCompliance] = useState<ComplianceRequest | null>(null);
   const [aircraftFormMode, setAircraftFormMode] = useState<'add' | 'edit'>('add');
 
   // Mock data
@@ -94,7 +115,7 @@ const Dashboard: React.FC = () => {
     },
   ];
 
-  const myListings = [
+  const myListings: ListingData[] = [
     {
       id: '1',
       title: 'Boeing 737-800 for Sale',
@@ -121,7 +142,7 @@ const Dashboard: React.FC = () => {
     },
   ];
 
-  const complianceRequests = [
+  const complianceRequests: ComplianceData[] = [
     {
       id: '1',
       aircraft: 'Gulfstream G650',
@@ -193,6 +214,22 @@ const Dashboard: React.FC = () => {
   };
 
   const handleProfileSave = () => {
+    // Обновляем данные пользователя в контексте
+    if (user) {
+      const updatedUser = {
+        ...user,
+        firstName: profileData.firstName,
+        lastName: profileData.lastName,
+        email: profileData.email,
+        phone: profileData.phone,
+        company: profileData.company,
+        position: profileData.position,
+        location: profileData.location,
+        bio: profileData.bio
+      };
+      updateUser(updatedUser);
+    }
+    
     // В реальном приложении здесь будет отправка на сервер
     toast.success('Профиль успешно обновлен');
     setIsEditingProfile(false);
@@ -204,7 +241,7 @@ const Dashboard: React.FC = () => {
       lastName: user?.lastName || '',
       email: user?.email || '',
       phone: '',
-      company: user?.companyName || '',
+      company: '',
       position: '',
       location: '',
       bio: ''
@@ -227,9 +264,32 @@ const Dashboard: React.FC = () => {
     setIsAircraftFormOpen(true);
   };
 
-  const handleEditAircraft = (aircraft: any) => {
+  const handleEditAircraft = (aircraft: ListingData) => {
     setAircraftFormMode('edit');
-    setEditingAircraft(aircraft);
+    // Преобразуем ListingData в AircraftFormData
+    const aircraftFormData: AircraftFormData = {
+      manufacturer: 'Boeing',
+      model: aircraft.title.split(' ')[1] || '',
+      series: '',
+      registration: '',
+      year: 2020,
+      ttaf: 0,
+      landings: 0,
+      price: aircraft.price.toString(),
+      currency: aircraft.currency,
+      location: '',
+      mtow: '',
+      engines: 2,
+      engineType: '',
+      maintenancePlan: '',
+      interior: '',
+      passengers: 0,
+      color: '',
+      description: '',
+      images: [aircraft.image],
+      documents: []
+    };
+    setEditingAircraft(aircraftFormData);
     setIsAircraftFormOpen(true);
   };
 
@@ -240,7 +300,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleSaveAircraft = (aircraftData: any) => {
+  const handleSaveAircraft = (aircraftData: AircraftFormData) => {
     if (aircraftFormMode === 'add') {
       // Добавление нового объявления
       toast.success('Объявление добавлено!');
@@ -253,8 +313,40 @@ const Dashboard: React.FC = () => {
   };
 
   // Compliance management functions
-  const handleViewCompliance = (compliance: any) => {
-    setSelectedCompliance(compliance);
+  const handleViewCompliance = (compliance: ComplianceData) => {
+    // Преобразуем ComplianceData в ComplianceRequest
+    const complianceRequest: ComplianceRequest = {
+      id: compliance.id,
+      aircraftId: '1',
+      aircraftTitle: compliance.aircraft,
+      aircraftPrice: compliance.price.toString(),
+      status: compliance.status as 'pending' | 'approved' | 'rejected' | 'in_review',
+      createdAt: compliance.date,
+      updatedAt: compliance.date,
+      buyerName: compliance.buyer,
+      buyerEmail: 'buyer@example.com',
+      buyerPhone: '+7 (999) 123-45-67',
+      buyerCompany: 'ООО Покупатель',
+      buyerPosition: 'Директор',
+      brokerName: 'Иван Брокер',
+      brokerEmail: 'broker@example.com',
+      brokerPhone: '+7 (999) 987-65-43',
+      brokerCompany: 'ООО Брокер',
+      brokerLicense: 'LIC-123456',
+      brokerExperience: '5 лет',
+      budget: compliance.price.toString(),
+      financing: false,
+      cashAvailable: true,
+      letterOfIntent: true,
+      proofOfFunds: true,
+      timeline: '3 месяца',
+      inspection: true,
+      nda: true,
+      terms: true,
+      documents: [],
+      comments: []
+    };
+    setSelectedCompliance(complianceRequest);
     setIsComplianceDetailOpen(true);
   };
 
@@ -469,7 +561,10 @@ const Dashboard: React.FC = () => {
                         </div>
 
                         <div className="flex space-x-2">
-                          <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-md text-sm font-medium flex items-center justify-center">
+                          <button 
+                            onClick={() => navigate(`/listing/${listing.id}`)}
+                            className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-md text-sm font-medium flex items-center justify-center"
+                          >
                             <EyeIcon className="w-4 h-4 mr-1" />
                             Просмотр
                           </button>
@@ -534,12 +629,20 @@ const Dashboard: React.FC = () => {
                               Просмотреть детали
                             </button>
                             {request.status === 'pending' && (
-                              <button 
-                                onClick={() => handleComplianceStatusChange(request.id, 'approved')}
-                                className="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1 rounded text-sm"
-                              >
-                                Одобрить
-                              </button>
+                              <>
+                                <button 
+                                  onClick={() => handleComplianceStatusChange(request.id, 'approved')}
+                                  className="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1 rounded text-sm"
+                                >
+                                  Одобрить
+                                </button>
+                                <button 
+                                  onClick={() => handleComplianceStatusChange(request.id, 'rejected')}
+                                  className="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded text-sm"
+                                >
+                                  Отклонить
+                                </button>
+                              </>
                             )}
                           </div>
                         </div>
@@ -552,14 +655,61 @@ const Dashboard: React.FC = () => {
 
             {/* Messages Tab */}
             {activeTab === 'messages' && (
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-                <div className="px-6 py-4 border-b border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900">Сообщения</h3>
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-lg font-semibold text-gray-900">Сообщения</h2>
+                  <button 
+                    onClick={() => setIsChatOpen(true)}
+                    className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium flex items-center"
+                  >
+                    <BellIcon className="w-4 h-4 mr-2" />
+                    Открыть чат
+                  </button>
                 </div>
-                <div className="p-6">
-                  <div className="text-center py-8">
-                    <BellIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600">У вас пока нет новых сообщений</p>
+
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                  <div className="px-6 py-4 border-b border-gray-200">
+                    <h3 className="text-lg font-semibold text-gray-900">Последние сообщения</h3>
+                  </div>
+                  <div className="p-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer" onClick={() => setIsChatOpen(true)}>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+                            <UserIcon className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-gray-900">Иван Петров</h4>
+                            <p className="text-sm text-gray-600">Boeing 737-800 for Sale</p>
+                            <p className="text-sm text-gray-500">Спасибо! А когда можно организовать осмотр?</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-xs text-gray-500">15 мин назад</span>
+                          <div className="mt-1">
+                            <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-black rounded-full">
+                              1
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer" onClick={() => setIsChatOpen(true)}>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                            <UserIcon className="w-5 h-5 text-gray-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-gray-900">Мария Козлова</h4>
+                            <p className="text-sm text-gray-600">Airbus A320neo</p>
+                            <p className="text-sm text-gray-500">2018 год выпуска, TTAF 12,000 часов. Самолет практически новый.</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-xs text-gray-500">1 час назад</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -817,6 +967,14 @@ const Dashboard: React.FC = () => {
           onStatusChange={handleComplianceStatusChange}
         />
       )}
+
+      {/* Chat Modal */}
+      <ChatModal
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        currentUserId={user?.id || ''}
+        currentUserRole={(user?.role === 'admin' ? 'buyer' : user?.role) || 'buyer'}
+      />
     </div>
   );
 };

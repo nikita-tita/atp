@@ -15,6 +15,7 @@ import Contact from './pages/Contact';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Refund from './pages/Refund';
+import ListingDetail from './pages/ListingDetail';
 import { AuthProvider } from './contexts/AuthContext';
 import ScrollToTop from './components/ScrollToTop';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -52,6 +53,7 @@ function App() {
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/refund" element={<Refund />} />
+                <Route path="/listing/:id" element={<ListingDetail />} />
               </Routes>
             </main>
             <Footer />
