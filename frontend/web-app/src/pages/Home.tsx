@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   MagnifyingGlassIcon,
   GlobeAltIcon,
@@ -9,6 +10,37 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function Home() {
+  const navigate = useNavigate();
+  const [searchForm, setSearchForm] = useState({
+    manufacturer: '',
+    model: '',
+    price: '',
+    year: ''
+  });
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setSearchForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Создаем URL с параметрами поиска
+    const searchParams = new URLSearchParams();
+    if (searchForm.manufacturer) searchParams.append('manufacturer', searchForm.manufacturer);
+    if (searchForm.model) searchParams.append('model', searchForm.model);
+    if (searchForm.price) searchParams.append('price', searchForm.price);
+    if (searchForm.year) searchParams.append('year', searchForm.year);
+    
+    // Переходим на страницу поиска с параметрами
+    const searchUrl = searchParams.toString() ? `/aircraft?${searchParams.toString()}` : '/aircraft';
+    navigate(searchUrl);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -16,8 +48,8 @@ export default function Home() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-            alt="Private Jet"
+            src="/images/Bombardier-Global-6000-sales-01-1536x771.jpg.webp"
+            alt="Bombardier Global 6000"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/50"></div>
@@ -70,18 +102,25 @@ export default function Home() {
 
           {/* Search Form */}
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8">
+            <form onSubmit={handleSearchSubmit} className="bg-white/10 backdrop-blur-sm rounded-lg p-8">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Производитель
                   </label>
-                  <select className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-white">
+                  <select 
+                    name="manufacturer"
+                    value={searchForm.manufacturer}
+                    onChange={handleSearchChange}
+                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-white"
+                  >
                     <option value="">Все производители</option>
                     <option value="gulfstream">Gulfstream</option>
                     <option value="bombardier">Bombardier</option>
                     <option value="cessna">Cessna</option>
                     <option value="dassault">Dassault</option>
+                    <option value="boeing">Boeing</option>
+                    <option value="airbus">Airbus</option>
                   </select>
                 </div>
                 <div>
@@ -90,6 +129,9 @@ export default function Home() {
                   </label>
                   <input
                     type="text"
+                    name="model"
+                    value={searchForm.model}
+                    onChange={handleSearchChange}
                     placeholder="Любая модель"
                     className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
                   />
@@ -98,7 +140,12 @@ export default function Home() {
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Цена
                   </label>
-                  <select className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-white">
+                  <select 
+                    name="price"
+                    value={searchForm.price}
+                    onChange={handleSearchChange}
+                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-white"
+                  >
                     <option value="">Любая цена</option>
                     <option value="0-10">До $10M</option>
                     <option value="10-25">$10M - $25M</option>
@@ -107,13 +154,16 @@ export default function Home() {
                   </select>
                 </div>
                 <div className="flex items-end">
-                  <button className="w-full px-6 py-3 bg-white text-black font-semibold hover:bg-gray-100 transition-colors rounded-md">
+                  <button 
+                    type="submit"
+                    className="w-full px-6 py-3 bg-white text-black font-semibold hover:bg-gray-100 transition-colors rounded-md"
+                  >
                     <MagnifyingGlassIcon className="h-5 w-5 inline mr-2" />
                     Поиск
                   </button>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </section>
@@ -205,10 +255,10 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Aircraft Card 1 */}
-            <div className="group cursor-pointer">
+            <Link to="/aircraft/1" className="group cursor-pointer">
               <div className="relative overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/images/cff5ba0469b909cc9cfb2b892c13407f8a9435c6.jpeg"
                   alt="Gulfstream G650"
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -222,13 +272,13 @@ export default function Home() {
                 <p className="text-gray-300 mb-2">TTAF: 5,340 часов</p>
                 <p className="text-lg font-semibold">По запросу</p>
               </div>
-            </div>
+            </Link>
 
             {/* Aircraft Card 2 */}
-            <div className="group cursor-pointer">
+            <Link to="/aircraft/2" className="group cursor-pointer">
               <div className="relative overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/images/Bombardier-Global-6000-sales-01-1536x771.jpg.webp"
                   alt="Bombardier Global 6000"
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -242,13 +292,13 @@ export default function Home() {
                 <p className="text-gray-300 mb-2">TTAF: 2,800 часов</p>
                 <p className="text-lg font-semibold">$45,000,000</p>
               </div>
-            </div>
+            </Link>
 
             {/* Aircraft Card 3 */}
-            <div className="group cursor-pointer">
+            <Link to="/aircraft/3" className="group cursor-pointer">
               <div className="relative overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/images/xjcid1avepox27tm0jxglg33ltpmod0b.jpg"
                   alt="Cessna Citation X"
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -262,7 +312,7 @@ export default function Home() {
                 <p className="text-gray-300 mb-2">TTAF: 4,200 часов</p>
                 <p className="text-lg font-semibold">$12,500,000</p>
               </div>
-            </div>
+            </Link>
           </div>
 
           <div className="text-center mt-12">

@@ -80,7 +80,7 @@ const Register: React.FC = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <div className="w-12 h-12 bg-aviation-600 rounded-lg flex items-center justify-center">
+          <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-lg">✈️</span>
           </div>
         </div>
@@ -91,7 +91,7 @@ const Register: React.FC = () => {
           Или{' '}
           <Link
             to="/login"
-            className="font-medium text-aviation-600 hover:text-aviation-500"
+            className="font-medium text-black hover:text-gray-700"
           >
             войдите в существующий аккаунт
           </Link>
@@ -113,7 +113,7 @@ const Register: React.FC = () => {
                   required
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="input-field"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
                   placeholder="Иван"
                 />
               </div>
@@ -129,7 +129,7 @@ const Register: React.FC = () => {
                   required
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="input-field"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
                   placeholder="Иванов"
                 />
               </div>
@@ -147,7 +147,7 @@ const Register: React.FC = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="input-field"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
                 placeholder="your@email.com"
               />
             </div>
@@ -161,7 +161,7 @@ const Register: React.FC = () => {
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="input-field"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
               >
                 <option value="buyer">Покупатель</option>
                 <option value="seller">Продавец</option>
@@ -179,7 +179,7 @@ const Register: React.FC = () => {
                   type="text"
                   value={formData.companyName}
                   onChange={handleChange}
-                  className="input-field"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
                   placeholder="ООО АвиаТрейд"
                 />
               </div>
@@ -197,7 +197,7 @@ const Register: React.FC = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="input-field pr-10"
+                  className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
                   placeholder="Минимум 8 символов"
                 />
                 <button
@@ -226,7 +226,7 @@ const Register: React.FC = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="input-field pr-10"
+                  className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
                   placeholder="Повторите пароль"
                 />
                 <button
@@ -250,23 +250,17 @@ const Register: React.FC = () => {
                 type="checkbox"
                 checked={agreedToTerms}
                 onChange={(e) => setAgreedToTerms(e.target.checked)}
-                className="h-4 w-4 text-aviation-600 focus:ring-aviation-500 border-gray-300 rounded"
+                className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
               />
               <label htmlFor="agree-terms" className="ml-2 block text-sm text-gray-900">
                 Я согласен с{' '}
-                <Link
-                  to="/terms"
-                  className="text-aviation-600 hover:text-aviation-500"
-                >
+                <span className="text-black font-medium">
                   условиями использования
-                </Link>
+                </span>
                 {' '}и{' '}
-                <Link
-                  to="/privacy"
-                  className="text-aviation-600 hover:text-aviation-500"
-                >
+                <span className="text-black font-medium">
                   политикой конфиденциальности
-                </Link>
+                </span>
               </label>
             </div>
 
@@ -280,7 +274,7 @@ const Register: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-aviation-600 hover:bg-aviation-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-aviation-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? 'Создание аккаунта...' : 'Создать аккаунт'}
               </button>

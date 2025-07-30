@@ -10,7 +10,15 @@ import AircraftList from './pages/AircraftList';
 import AircraftDetail from './pages/AircraftDetail';
 import Compare from './pages/Compare';
 import Dashboard from './pages/Dashboard';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import Refund from './pages/Refund';
 import { AuthProvider } from './contexts/AuthContext';
+import ScrollToTop from './components/ScrollToTop';
+import ErrorBoundary from './components/ErrorBoundary';
+import './utils/debug'; // Подключаем утилиты отладки
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,20 +31,27 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Router>
-          <div className="min-h-screen bg-gray-50 flex flex-col">
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Router>
+            <ScrollToTop />
+            <div className="min-h-screen bg-gray-50 flex flex-col">
             <Header />
             <main className="flex-1">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                          <Route path="/aircraft" element={<AircraftList />} />
-          <Route path="/aircraft/:id" element={<AircraftDetail />} />
-          <Route path="/compare" element={<Compare />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/aircraft" element={<AircraftList />} />
+                <Route path="/aircraft/:id" element={<AircraftDetail />} />
+                <Route path="/compare" element={<Compare />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/refund" element={<Refund />} />
               </Routes>
             </main>
             <Footer />
@@ -54,6 +69,7 @@ function App() {
         </Router>
       </AuthProvider>
     </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

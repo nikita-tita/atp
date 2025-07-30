@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
   MagnifyingGlassIcon,
   FunnelIcon,
@@ -149,6 +149,92 @@ export default function AircraftList() {
   const [sortOrder, setSortOrder] = useState('desc');
   const [favorites, setFavorites] = useState<number[]>([]);
   const [comparison, setComparison] = useState<number[]>([]);
+
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    // Обработка параметров поиска из главной страницы
+    const manufacturer = searchParams.get('manufacturer') || '';
+    if (manufacturer) {
+      setSelectedManufacturer(manufacturer);
+    }
+
+    const model = searchParams.get('model') || '';
+    if (model) {
+      setSearchTerm(model);
+    }
+
+    const price = searchParams.get('price') || '';
+    if (price) {
+      // Преобразуем диапазон цен в min/max
+      switch (price) {
+        case '0-10':
+          setPriceRange({ min: '0', max: '10000000' });
+          break;
+        case '10-25':
+          setPriceRange({ min: '10000000', max: '25000000' });
+          break;
+        case '25-50':
+          setPriceRange({ min: '25000000', max: '50000000' });
+          break;
+        case '50+':
+          setPriceRange({ min: '50000000', max: '' });
+          break;
+      }
+    }
+
+    const year = searchParams.get('year') || '';
+    if (year) {
+      setSelectedYear(year);
+    }
+
+    // Обработка других параметров фильтрации
+    const currentSearchTerm = searchParams.get('search') || '';
+    if (!model) { // Не перезаписываем если есть параметр model
+      setSearchTerm(currentSearchTerm);
+    }
+
+    const currentManufacturer = searchParams.get('manufacturer') || 'All';
+    if (!manufacturer) { // Не перезаписываем если есть параметр manufacturer
+      setSelectedManufacturer(currentManufacturer);
+    }
+
+    const currentYear = searchParams.get('year') || 'All';
+    if (!year) { // Не перезаписываем если есть параметр year
+      setSelectedYear(currentYear);
+    }
+
+    const currentStatus = searchParams.get('status') || 'All';
+    setSelectedStatus(currentStatus);
+
+    const currentPriceMin = searchParams.get('priceMin') || '';
+    if (!price) { // Не перезаписываем если есть параметр price
+      setPriceRange(prev => ({ ...prev, min: currentPriceMin }));
+    }
+
+    const currentPriceMax = searchParams.get('priceMax') || '';
+    if (!price) { // Не перезаписываем если есть параметр price
+      setPriceRange(prev => ({ ...prev, max: currentPriceMax }));
+    }
+
+    const currentTtafMin = searchParams.get('ttafMin') || '';
+    setTtafRange(prev => ({ ...prev, min: currentTtafMin }));
+
+    const currentTtafMax = searchParams.get('ttafMax') || '';
+    setTtafRange(prev => ({ ...prev, max: currentTtafMax }));
+
+    const currentSort = searchParams.get('sort') || 'year-desc';
+    const [field, order] = currentSort.split('-');
+    setSortBy(field);
+    setSortOrder(order);
+
+    const currentFavorites = searchParams.get('favorites')?.split(',').map(Number) || [];
+    setFavorites(currentFavorites);
+
+    const currentComparison = searchParams.get('comparison')?.split(',').map(Number) || [];
+    setComparison(currentComparison);
+
+  }, [searchParams]);
 
   // Фильтрация данных
   const filteredAircraft = aircraftData.filter(aircraft => {
@@ -434,7 +520,7 @@ export default function AircraftList() {
               {/* Изображение */}
               <div className="relative h-64 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/images/Global Express Jet_0.jpg"
                   alt={`${aircraft.manufacturer} ${aircraft.model}`}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
