@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { XMarkIcon, DocumentTextIcon, ShieldCheckIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
@@ -19,6 +20,7 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
   onSuccess,
   aircraft
 }) => {
+  const { t } = useTranslation();
   const [step, setStep] = useState<'info' | 'documents' | 'confirmation'>('info');
   const [formData, setFormData] = useState({
     // Информация о покупателе
@@ -133,7 +135,7 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center">
             <ShieldCheckIcon className="w-6 h-6 text-aviation-600 mr-3" />
-            <h2 className="text-xl font-semibold text-gray-900">Комплаенс-проверка</h2>
+            <h2 className="text-xl font-semibold text-gray-900">{t('complianceModal.title')}</h2>
           </div>
           <button
             onClick={onClose}
@@ -152,7 +154,7 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
               }`}>
                 1
               </div>
-              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">Информация</span>
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">{t('complianceModal.steps.info')}</span>
             </div>
             <div className={`flex items-center ${step === 'documents' ? 'text-aviation-600' : 'text-gray-400'}`}>
               <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
@@ -160,7 +162,7 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
               }`}>
                 2
               </div>
-              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">Документы</span>
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">{t('complianceModal.steps.documents')}</span>
             </div>
             <div className={`flex items-center ${step === 'confirmation' ? 'text-aviation-600' : 'text-gray-400'}`}>
               <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
@@ -168,7 +170,7 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
               }`}>
                 3
               </div>
-              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">Подтверждение</span>
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">{t('complianceModal.steps.confirmation')}</span>
             </div>
           </div>
         </div>
@@ -178,8 +180,8 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
           {step === 'info' && (
             <div>
               <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h3 className="font-medium text-blue-900 mb-2">Самолет: {aircraft.title}</h3>
-                <p className="text-blue-800 text-sm">Цена: {formatPrice(aircraft.price, aircraft.currency)}</p>
+                <h3 className="font-medium text-blue-900 mb-2">{t('complianceModal.aircraftLabel')} {aircraft.title}</h3>
+                <p className="text-blue-800 text-sm">{t('complianceModal.priceLabel')} {formatPrice(aircraft.price, aircraft.currency)}</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -328,14 +330,14 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
 
           {step === 'documents' && (
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Подтверждение документов</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">{t('complianceModal.steps.documents')}</h3>
               
               <div className="space-y-4">
                 <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                   <div className="flex items-start">
                     <ExclamationTriangleIcon className="w-5 h-5 text-yellow-600 mt-0.5 mr-3" />
                     <div>
-                      <h4 className="font-medium text-yellow-900">Важно!</h4>
+                      <h4 className="font-medium text-yellow-900">{t('complianceModal.important')}</h4>
                       <p className="text-yellow-800 text-sm mt-1">
                         Для прохождения комплаенс-проверки необходимо подтвердить наличие следующих документов
                       </p>
@@ -441,12 +443,12 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
             <div>
               <div className="text-center mb-6">
                 <ShieldCheckIcon className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Подтверждение заявки</h3>
-                <p className="text-gray-600">Пожалуйста, проверьте введенную информацию перед отправкой</p>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">{t('complianceModal.confirmTitle')}</h3>
+                <p className="text-gray-600">{t('complianceModal.confirmSubtitle')}</p>
               </div>
 
               <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                <h4 className="font-medium text-gray-900 mb-3">Сводка заявки:</h4>
+                <h4 className="font-medium text-gray-900 mb-3">{t('complianceModal.summaryTitle')}</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-gray-500">Покупатель:</span>
@@ -476,11 +478,7 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
               </div>
 
               <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <p className="text-blue-800 text-sm">
-                  После отправки заявки наша команда свяжется с вами в течение 24 часов для уточнения деталей 
-                  и проведения комплаенс-проверки. После успешной проверки вы получите доступ к контактной 
-                  информации продавца.
-                </p>
+                <p className="text-blue-800 text-sm">{t('complianceModal.finalInfo')}</p>
               </div>
             </div>
           )}
@@ -492,7 +490,7 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
             onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
           >
-            Отмена
+            {t('complianceModal.cancel')}
           </button>
           <div className="flex space-x-3">
             {step !== 'info' && (
@@ -500,7 +498,7 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
                 onClick={handleBack}
                 className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
               >
-                Назад
+                {t('complianceModal.back')}
               </button>
             )}
             {step !== 'confirmation' ? (
@@ -508,14 +506,14 @@ const ComplianceModal: React.FC<ComplianceModalProps> = ({
                 onClick={handleNext}
                 className="px-4 py-2 bg-aviation-600 text-white text-sm font-medium rounded-md hover:bg-aviation-700"
               >
-                Далее
+                {t('complianceModal.next')}
               </button>
             ) : (
               <button
                 onClick={handleSubmit}
                 className="px-4 py-2 bg-aviation-600 text-white text-sm font-medium rounded-md hover:bg-aviation-700"
               >
-                Отправить заявку
+                {t('complianceModal.submit')}
               </button>
             )}
           </div>

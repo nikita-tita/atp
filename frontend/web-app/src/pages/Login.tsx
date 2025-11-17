@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
@@ -12,12 +13,13 @@ const Login: React.FC = () => {
   
   const { login, error, clearError } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email || !password) {
-      toast.error('Пожалуйста, заполните все поля');
+      toast.error(t('auth.login.validation.fillAllFields'));
       return;
     }
 
@@ -26,10 +28,10 @@ const Login: React.FC = () => {
 
     try {
       await login(email, password);
-      toast.success('Успешный вход в систему');
+      toast.success(t('auth.login.notifications.success'));
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Ошибка входа');
+      toast.error(error instanceof Error ? error.message : t('auth.login.notifications.error'));
     } finally {
       setIsLoading(false);
     }
@@ -44,15 +46,15 @@ const Login: React.FC = () => {
           </div>
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-          Войти в аккаунт
+          {t('auth.login.title')}
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Или{' '}
+          {t('auth.login.noAccount')}{' '}
           <Link
             to="/register"
             className="font-medium text-black hover:text-gray-700"
           >
-            зарегистрируйтесь для получения доступа
+            {t('auth.login.registerLink')}
           </Link>
         </p>
       </div>
@@ -62,7 +64,7 @@ const Login: React.FC = () => {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email адрес
+                {t('auth.login.email')}
               </label>
               <div className="mt-1">
                 <input
@@ -81,7 +83,7 @@ const Login: React.FC = () => {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Пароль
+                {t('auth.login.password')}
               </label>
               <div className="mt-1 relative">
                 <input
@@ -93,7 +95,7 @@ const Login: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
-                  placeholder="Введите пароль"
+                  placeholder={t('auth.login.placeholders.password')}
                 />
                 <button
                   type="button"
@@ -141,7 +143,7 @@ const Login: React.FC = () => {
                 disabled={isLoading}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Вход в систему...' : 'Войти'}
+                {isLoading ? t('auth.login.notifications.logging') : t('auth.login.loginButton')}
               </button>
             </div>
           </form>

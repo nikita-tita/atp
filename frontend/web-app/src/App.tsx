@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
+import './i18n'; // Initialize i18n
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -16,6 +17,12 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Refund from './pages/Refund';
 import ListingDetail from './pages/ListingDetail';
+import AircraftSales from './pages/AircraftSales';
+import AircraftLeasing from './pages/AircraftLeasing';
+import ACMIServices from './pages/ACMIServices';
+import EnhancedRegister from './pages/EnhancedRegister';
+import KYCVerificationPage from './pages/KYCVerificationPage';
+import EnhancedAircraftDetail from './pages/EnhancedAircraftDetail';
 import { AuthProvider } from './contexts/AuthContext';
 import ScrollToTop from './components/ScrollToTop';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -44,8 +51,13 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/register-enhanced" element={<EnhancedRegister />} />
                 <Route path="/aircraft" element={<AircraftList />} />
                 <Route path="/aircraft/:id" element={<AircraftDetail />} />
+                <Route path="/aircraft-enhanced/:id" element={<EnhancedAircraftDetail />} />
+                <Route path="/sales" element={<AircraftSales />} />
+                <Route path="/leasing" element={<AircraftLeasing />} />
+                <Route path="/acmi" element={<ACMIServices />} />
                 <Route path="/compare" element={<Compare />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/about" element={<About />} />
@@ -54,6 +66,7 @@ function App() {
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/refund" element={<Refund />} />
                 <Route path="/listing/:id" element={<ListingDetail />} />
+                <Route path="/kyc-verification" element={<KYCVerificationPage />} />
               </Routes>
             </main>
             <Footer />

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   MagnifyingGlassIcon,
   FunnelIcon,
@@ -11,120 +12,32 @@ import {
   ChevronUpIcon,
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
+import { aircraftData, formatPrice } from '../data/aircraftData';
 
-// Расширенные данные самолетов
-const aircraftData = [
-  {
-    id: 1,
-    manufacturer: 'Gulfstream',
-    model: 'G650',
-    series: '6062',
-    registration: 'OE-LVJ',
-    year: 2014,
-    status: 'FS', // For Sale
-    ttaf: 5340,
-    landings: 1980,
-    price: 'Inquire',
-    location: 'Schwechat, Austria',
-    mtow: '99,598 Lbs',
-    engines: 2,
-    engineType: 'RR BR700-725A1-12',
-    maintenancePlan: 'RR CorporateCare',
-    interior: 'Executive',
-    passengers: 14,
-    color: 'White w/Blue & Red',
-    isFavorite: false,
-    isInComparison: false,
-  },
-  {
-    id: 2,
-    manufacturer: 'Gulfstream',
-    model: 'G650',
-    series: '6088',
-    registration: 'N380SE',
-    year: 2014,
-    status: 'FS',
-    ttaf: 3600,
-    landings: 1450,
-    price: 'Inquire',
-    location: 'Miami, FL',
-    mtow: '99,598 Lbs',
-    engines: 2,
-    engineType: 'RR BR700-725A1-12',
-    maintenancePlan: 'RR CorporateCare',
-    interior: 'Executive',
-    passengers: 14,
-    color: 'White w/Gold',
-    isFavorite: true,
-    isInComparison: false,
-  },
-  {
-    id: 3,
-    manufacturer: 'Bombardier',
-    model: 'Global 6000',
-    series: '7001',
-    registration: 'N123AB',
-    year: 2016,
-    status: 'FS-Unv', // For Sale Unverified
-    ttaf: 2800,
-    landings: 1200,
-    price: '$45,000,000',
-    location: 'Los Angeles, CA',
-    mtow: '99,500 Lbs',
-    engines: 2,
-    engineType: 'RR BR710A2-20',
-    maintenancePlan: 'RR CorporateCare',
-    interior: 'Executive',
-    passengers: 13,
-    color: 'White w/Silver',
-    isFavorite: false,
-    isInComparison: false,
-  },
-  {
-    id: 4,
-    manufacturer: 'Cessna',
-    model: 'Citation X',
-    series: '750',
-    registration: 'N456CD',
-    year: 2013,
-    status: 'FS-Pndg', // For Sale Pending
-    ttaf: 4200,
-    landings: 1800,
-    price: '$12,500,000',
-    location: 'Dallas, TX',
-    mtow: '36,100 Lbs',
-    engines: 2,
-    engineType: 'AE 3007C1',
-    maintenancePlan: 'Honeywell MSP',
-    interior: 'Executive',
-    passengers: 8,
-    color: 'White w/Blue',
-    isFavorite: false,
-    isInComparison: false,
-  },
-  {
-    id: 5,
-    manufacturer: 'Dassault',
-    model: 'Falcon 7X',
-    series: '7001',
-    registration: 'F-ABCD',
-    year: 2015,
-    status: 'Not FS', // Not For Sale
-    ttaf: 3100,
-    landings: 1400,
-    price: 'N/A',
-    location: 'Paris, France',
-    mtow: '70,000 Lbs',
-    engines: 3,
-    engineType: 'PW307A',
-    maintenancePlan: 'Pratt & Whitney ESP',
-    interior: 'Executive',
-    passengers: 12,
-    color: 'White w/Gray',
-    isFavorite: false,
-    isInComparison: false,
-  },
-];
+// Конвертируем данные из aircraftData в формат для AircraftList
+const convertedAircraftData = aircraftData.map(aircraft => ({
+  id: parseInt(aircraft.id),
+  manufacturer: aircraft.manufacturer,
+  model: aircraft.model,
+  series: aircraft.registration.slice(-3),
+  registration: aircraft.registration,
+  year: aircraft.year,
+  status: aircraft.status === 'active' ? 'FS' : 'FS-Pndg',
+  ttaf: aircraft.hours,
+  landings: aircraft.cycles,
+  price: formatPrice(aircraft.price, aircraft.currency),
+  location: aircraft.location,
+  mtow: aircraft.specifications.maxTakeoffWeight,
+  engines: 2,
+  engineType: aircraft.specifications.engines,
+  maintenancePlan: 'Standard',
+  interior: 'Executive',
+  passengers: aircraft.passengers,
+  color: 'Standard',
+  isFavorite: false,
+  isInComparison: false,
+  image: aircraft.image,
+}));
 
 const statusConfig = {
   'FS': { label: 'For Sale', color: 'bg-green-100 text-green-800' },
@@ -133,133 +46,104 @@ const statusConfig = {
   'Not FS': { label: 'Not For Sale', color: 'bg-gray-100 text-gray-800' },
 };
 
-const manufacturers = ['All', 'Gulfstream', 'Bombardier', 'Cessna', 'Dassault', 'Embraer', 'Airbus', 'Boeing'];
-const years = ['All', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010'];
+const manufacturers = ['All', 'Boeing', 'Airbus', 'Comac', 'Mitsubishi'];
+const years = ['All', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015', '2014'];
 const statuses = ['All', 'FS', 'FS-Unv', 'FS-Pndg', 'Not FS'];
 
 export default function AircraftList() {
+  const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  // Filter states
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedManufacturer, setSelectedManufacturer] = useState('All');
+  const [selectedModel, setSelectedModel] = useState('All');
   const [selectedYear, setSelectedYear] = useState('All');
   const [selectedStatus, setSelectedStatus] = useState('All');
-  const [priceRange, setPriceRange] = useState({ min: '', max: '' });
-  const [ttafRange, setTtafRange] = useState({ min: '', max: '' });
-  const [showFilters, setShowFilters] = useState(false);
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [minTtaf, setMinTtaf] = useState('');
+  const [maxTtaf, setMaxTtaf] = useState('');
+  const [minLandings, setMinLandings] = useState('');
+  const [maxLandings, setMaxLandings] = useState('');
+  
+  // Display states
   const [sortBy, setSortBy] = useState('year');
   const [sortOrder, setSortOrder] = useState('desc');
+  const [viewMode, setViewMode] = useState('grid');
+  const [showFilters, setShowFilters] = useState(true);
+  
+  // Comparison state
+  const [comparisonList, setComparisonList] = useState<number[]>([]);
+  
+  // Favorite state
   const [favorites, setFavorites] = useState<number[]>([]);
-  const [comparison, setComparison] = useState<number[]>([]);
 
-  const [searchParams] = useSearchParams();
-
+  // Read initial filters from URL
   useEffect(() => {
-    // Обработка параметров поиска из главной страницы
-    const manufacturer = searchParams.get('manufacturer') || '';
-    if (manufacturer) {
-      setSelectedManufacturer(manufacturer);
-    }
+    const manufacturer = searchParams.get('manufacturer');
+    const model = searchParams.get('model');
+    const price = searchParams.get('price');
+    const year = searchParams.get('year');
 
-    const model = searchParams.get('model') || '';
-    if (model) {
-      setSearchTerm(model);
-    }
-
-    const price = searchParams.get('price') || '';
+    if (manufacturer) setSelectedManufacturer(manufacturer);
+    if (model) setSelectedModel(model);
+    if (year) setSelectedYear(year);
     if (price) {
-      // Преобразуем диапазон цен в min/max
-      switch (price) {
-        case '0-10':
-          setPriceRange({ min: '0', max: '10000000' });
-          break;
-        case '10-25':
-          setPriceRange({ min: '10000000', max: '25000000' });
-          break;
-        case '25-50':
-          setPriceRange({ min: '25000000', max: '50000000' });
-          break;
-        case '50+':
-          setPriceRange({ min: '50000000', max: '' });
-          break;
+      // Parse price range like "10-25" or "25-50"
+      if (price === '0-10') {
+        setMaxPrice('10000000');
+      } else if (price === '10-25') {
+        setMinPrice('10000000');
+        setMaxPrice('25000000');
+      } else if (price === '25-50') {
+        setMinPrice('25000000');
+        setMaxPrice('50000000');
+      } else if (price === '50+') {
+        setMinPrice('50000000');
       }
     }
-
-    const year = searchParams.get('year') || '';
-    if (year) {
-      setSelectedYear(year);
-    }
-
-    // Обработка других параметров фильтрации
-    const currentSearchTerm = searchParams.get('search') || '';
-    if (!model) { // Не перезаписываем если есть параметр model
-      setSearchTerm(currentSearchTerm);
-    }
-
-    const currentManufacturer = searchParams.get('manufacturer') || 'All';
-    if (!manufacturer) { // Не перезаписываем если есть параметр manufacturer
-      setSelectedManufacturer(currentManufacturer);
-    }
-
-    const currentYear = searchParams.get('year') || 'All';
-    if (!year) { // Не перезаписываем если есть параметр year
-      setSelectedYear(currentYear);
-    }
-
-    const currentStatus = searchParams.get('status') || 'All';
-    setSelectedStatus(currentStatus);
-
-    const currentPriceMin = searchParams.get('priceMin') || '';
-    if (!price) { // Не перезаписываем если есть параметр price
-      setPriceRange(prev => ({ ...prev, min: currentPriceMin }));
-    }
-
-    const currentPriceMax = searchParams.get('priceMax') || '';
-    if (!price) { // Не перезаписываем если есть параметр price
-      setPriceRange(prev => ({ ...prev, max: currentPriceMax }));
-    }
-
-    const currentTtafMin = searchParams.get('ttafMin') || '';
-    setTtafRange(prev => ({ ...prev, min: currentTtafMin }));
-
-    const currentTtafMax = searchParams.get('ttafMax') || '';
-    setTtafRange(prev => ({ ...prev, max: currentTtafMax }));
-
-    const currentSort = searchParams.get('sort') || 'year-desc';
-    const [field, order] = currentSort.split('-');
-    setSortBy(field);
-    setSortOrder(order);
-
-    const currentFavorites = searchParams.get('favorites')?.split(',').map(Number) || [];
-    setFavorites(currentFavorites);
-
-    const currentComparison = searchParams.get('comparison')?.split(',').map(Number) || [];
-    setComparison(currentComparison);
-
   }, [searchParams]);
 
-  // Фильтрация данных
-  const filteredAircraft = aircraftData.filter(aircraft => {
-    const matchesSearch = 
+  // Get unique models for selected manufacturer
+  const getModelsForManufacturer = (manufacturer: string) => {
+    if (manufacturer === 'All') return ['All'];
+    const models = convertedAircraftData
+      .filter(aircraft => aircraft.manufacturer === manufacturer)
+      .map(aircraft => aircraft.model);
+    return ['All', ...Array.from(new Set(models))];
+  };
+
+  // Filter aircraft
+  const filteredAircraft = convertedAircraftData.filter(aircraft => {
+    const matchesSearch = searchTerm === '' || 
       aircraft.manufacturer.toLowerCase().includes(searchTerm.toLowerCase()) ||
       aircraft.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      aircraft.registration.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      aircraft.location.toLowerCase().includes(searchTerm.toLowerCase());
+      aircraft.registration.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesManufacturer = selectedManufacturer === 'All' || aircraft.manufacturer === selectedManufacturer;
+    const matchesModel = selectedModel === 'All' || aircraft.model === selectedModel;
     const matchesYear = selectedYear === 'All' || aircraft.year.toString() === selectedYear;
     const matchesStatus = selectedStatus === 'All' || aircraft.status === selectedStatus;
     
-    const matchesPrice = !priceRange.min || !priceRange.max || 
-      (aircraft.price !== 'Inquire' && aircraft.price !== 'N/A' && 
-       parseFloat(aircraft.price.replace(/[$,]/g, '')) >= parseFloat(priceRange.min) &&
-       parseFloat(aircraft.price.replace(/[$,]/g, '')) <= parseFloat(priceRange.max));
+    // Price filtering (convert price string to number for comparison)
+    const priceValue = typeof aircraft.price === 'string' && aircraft.price.includes('$') 
+      ? parseInt(aircraft.price.replace(/[$,]/g, '')) 
+      : 0;
+    const matchesMinPrice = minPrice === '' || priceValue >= parseInt(minPrice);
+    const matchesMaxPrice = maxPrice === '' || priceValue <= parseInt(maxPrice);
     
-    const matchesTtaf = !ttafRange.min || !ttafRange.max ||
-      (aircraft.ttaf >= parseInt(ttafRange.min) && aircraft.ttaf <= parseInt(ttafRange.max));
-    
-    return matchesSearch && matchesManufacturer && matchesYear && matchesStatus && matchesPrice && matchesTtaf;
+    const matchesMinTtaf = minTtaf === '' || aircraft.ttaf >= parseInt(minTtaf);
+    const matchesMaxTtaf = maxTtaf === '' || aircraft.ttaf <= parseInt(maxTtaf);
+    const matchesMinLandings = minLandings === '' || aircraft.landings >= parseInt(minLandings);
+    const matchesMaxLandings = maxLandings === '' || aircraft.landings <= parseInt(maxLandings);
+
+    return matchesSearch && matchesManufacturer && matchesModel && matchesYear && 
+           matchesStatus && matchesMinPrice && matchesMaxPrice && 
+           matchesMinTtaf && matchesMaxTtaf && matchesMinLandings && matchesMaxLandings;
   });
 
-  // Сортировка
+  // Sort aircraft
   const sortedAircraft = [...filteredAircraft].sort((a, b) => {
     let aValue, bValue;
     
@@ -268,13 +152,17 @@ export default function AircraftList() {
         aValue = a.year;
         bValue = b.year;
         break;
+      case 'price':
+        aValue = typeof a.price === 'string' && a.price.includes('$') 
+          ? parseInt(a.price.replace(/[$,]/g, '')) 
+          : 0;
+        bValue = typeof b.price === 'string' && b.price.includes('$') 
+          ? parseInt(b.price.replace(/[$,]/g, '')) 
+          : 0;
+        break;
       case 'ttaf':
         aValue = a.ttaf;
         bValue = b.ttaf;
-        break;
-      case 'price':
-        aValue = a.price === 'Inquire' || a.price === 'N/A' ? 0 : parseFloat(a.price.replace(/[$,]/g, ''));
-        bValue = b.price === 'Inquire' || b.price === 'N/A' ? 0 : parseFloat(b.price.replace(/[$,]/g, ''));
         break;
       case 'manufacturer':
         aValue = a.manufacturer;
@@ -285,328 +173,334 @@ export default function AircraftList() {
         bValue = b.year;
     }
     
-    if (sortOrder === 'asc') {
-      return aValue > bValue ? 1 : -1;
-    } else {
-      return aValue < bValue ? 1 : -1;
+    if (typeof aValue === 'string') {
+      return sortOrder === 'asc' ? aValue.localeCompare(bValue as string) : (bValue as string).localeCompare(aValue);
     }
+    
+    return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
   });
 
-  // Обработчики избранного и сравнения
-  const toggleFavorite = (id: number) => {
-    setFavorites(prev => 
-      prev.includes(id) ? prev.filter(fav => fav !== id) : [...prev, id]
-    );
+  // Toggle comparison
+  const toggleComparison = (id: number) => {
+    if (comparisonList.includes(id)) {
+      setComparisonList(comparisonList.filter(item => item !== id));
+    } else {
+      if (comparisonList.length >= 5) {
+        alert(t('aircraft.maxCompareLimit'));
+        return;
+      }
+      setComparisonList([...comparisonList, id]);
+    }
   };
 
-  const toggleComparison = (id: number) => {
-    if (comparison.length >= 5 && !comparison.includes(id)) {
-      alert('Максимум 5 самолетов для сравнения');
-      return;
+  // Toggle favorite
+  const toggleFavorite = (id: number) => {
+    if (favorites.includes(id)) {
+      setFavorites(favorites.filter(item => item !== id));
+    } else {
+      setFavorites([...favorites, id]);
     }
-    setComparison(prev => 
-      prev.includes(id) ? prev.filter(comp => comp !== id) : [...prev, id]
-    );
   };
 
   return (
-    <div className="min-h-screen bg-white pt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Заголовок */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold text-black mb-6">
-            КАТАЛОГ САМОЛЕТОВ
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Найдите идеальный самолет для ваших потребностей среди верифицированных объявлений
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{t('aircraft.title')}</h1>
+          <p className="text-xl text-gray-600">
+            {filteredAircraft.length} aircraft available
           </p>
         </div>
 
-        {/* Поиск и фильтры */}
-        <div className="bg-black text-white rounded-lg mb-8">
-          <div className="p-8">
-            {/* Основная строка поиска */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <div className="flex-1">
-                <div className="relative">
-                  <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Поиск по производителю, модели, регистрации..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-white/20 border border-white/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
-                  />
-                </div>
-              </div>
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center px-6 py-3 bg-white text-black font-semibold hover:bg-gray-100 transition-colors rounded-md"
-              >
-                <FunnelIcon className="h-5 w-5 mr-2" />
-                Фильтры
-                {showFilters ? (
-                  <ChevronUpIcon className="h-5 w-5 ml-2" />
-                ) : (
-                  <ChevronDownIcon className="h-5 w-5 ml-2" />
-                )}
-              </button>
+        {/* Search and Filters */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-8">
+          {/* Search Bar */}
+          <div className="p-6 border-b border-gray-200">
+            <div className="relative">
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder={t('aircraft.searchPlaceholder')}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
             </div>
+          </div>
 
-            {/* Расширенные фильтры */}
-            {showFilters && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-white/30">
-                {/* Производитель */}
+          {/* Filter Toggle */}
+          <div className="px-6 py-4 border-b border-gray-200">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+            >
+              <FunnelIcon className="h-5 w-5" />
+              <span>Filters</span>
+              {showFilters ? <ChevronUpIcon className="h-4 w-4" /> : <ChevronDownIcon className="h-4 w-4" />}
+            </button>
+          </div>
+
+          {/* Filters */}
+          {showFilters && (
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                {/* Manufacturer */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Производитель
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('aircraft.filters.manufacturer')}
                   </label>
                   <select
                     value={selectedManufacturer}
-                    onChange={(e) => setSelectedManufacturer(e.target.value)}
-                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-white"
+                    onChange={(e) => {
+                      setSelectedManufacturer(e.target.value);
+                      setSelectedModel('All'); // Reset model when manufacturer changes
+                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {manufacturers.map(manufacturer => (
-                      <option key={manufacturer} value={manufacturer}>
-                        {manufacturer}
-                      </option>
+                      <option key={manufacturer} value={manufacturer}>{manufacturer}</option>
                     ))}
                   </select>
                 </div>
 
-                {/* Год */}
+                {/* Model */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Год выпуска
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('aircraft.filters.model')}
+                  </label>
+                  <select
+                    value={selectedModel}
+                    onChange={(e) => setSelectedModel(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {getModelsForManufacturer(selectedManufacturer).map(model => (
+                      <option key={model} value={model}>{model}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Year */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('aircraft.filters.year')}
                   </label>
                   <select
                     value={selectedYear}
                     onChange={(e) => setSelectedYear(e.target.value)}
-                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-white"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {years.map(year => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
+                      <option key={year} value={year}>{year}</option>
                     ))}
                   </select>
                 </div>
 
-                {/* Статус */}
+                {/* Status */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Статус
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('aircraft.filters.status')}
                   </label>
                   <select
                     value={selectedStatus}
                     onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-white"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {statuses.map(status => (
                       <option key={status} value={status}>
-                        {status === 'All' ? 'Все статусы' : statusConfig[status as keyof typeof statusConfig]?.label || status}
+                        {status === 'All' ? t('aircraft.allStatuses') : statusConfig[status as keyof typeof statusConfig]?.label || status}
                       </option>
                     ))}
                   </select>
                 </div>
+              </div>
 
-                {/* Сортировка */}
+              {/* Price Range */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Сортировка
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Min Price (USD)
                   </label>
-                  <select
-                    value={`${sortBy}-${sortOrder}`}
-                    onChange={(e) => {
-                      const [field, order] = e.target.value.split('-');
-                      setSortBy(field);
-                      setSortOrder(order);
-                    }}
-                    className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-white"
-                  >
-                    <option value="year-desc">Год (новые)</option>
-                    <option value="year-asc">Год (старые)</option>
-                    <option value="ttaf-asc">TTAF (низкие)</option>
-                    <option value="ttaf-desc">TTAF (высокие)</option>
-                    <option value="price-asc">Цена (низкая)</option>
-                    <option value="price-desc">Цена (высокая)</option>
-                    <option value="manufacturer-asc">Производитель (А-Я)</option>
-                  </select>
+                  <input
+                    type="number"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
+                    placeholder={t('aircraft.fromPlaceholder')}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
                 </div>
-
-                {/* Диапазон цен */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Цена (млн $)
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Max Price (USD)
                   </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="number"
-                      placeholder="От"
-                      value={priceRange.min}
-                      onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))}
-                      className="w-1/2 px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
-                    />
-                    <input
-                      type="number"
-                      placeholder="До"
-                      value={priceRange.max}
-                      onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))}
-                      className="w-1/2 px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
-                    />
-                  </div>
+                  <input
+                    type="number"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                    placeholder={t('aircraft.toPlaceholder')}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
                 </div>
-
-                {/* Диапазон TTAF */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    TTAF (часы)
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Min TTAF (hours)
                   </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="number"
-                      placeholder="От"
-                      value={ttafRange.min}
-                      onChange={(e) => setTtafRange(prev => ({ ...prev, min: e.target.value }))}
-                      className="w-1/2 px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
-                    />
-                    <input
-                      type="number"
-                      placeholder="До"
-                      value={ttafRange.max}
-                      onChange={(e) => setTtafRange(prev => ({ ...prev, max: e.target.value }))}
-                      className="w-1/2 px-4 py-3 bg-white/20 border border-white/30 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
-                    />
-                  </div>
+                  <input
+                    type="number"
+                    value={minTtaf}
+                    onChange={(e) => setMinTtaf(e.target.value)}
+                    placeholder={t('aircraft.fromPlaceholder')}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Max TTAF (hours)
+                  </label>
+                  <input
+                    type="number"
+                    value={maxTtaf}
+                    onChange={(e) => setMaxTtaf(e.target.value)}
+                    placeholder={t('aircraft.toPlaceholder')}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
-        {/* Панель действий */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <div className="flex items-center gap-4">
-            <span className="text-lg font-medium text-black">
-              Найдено: {sortedAircraft.length} самолетов
-            </span>
-            {comparison.length > 0 && (
-              <Link
-                to="/compare"
-                className="flex items-center px-4 py-2 bg-black text-white font-semibold hover:bg-gray-800 transition-colors"
+        {/* Sort and View Controls */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <label className="text-sm font-medium text-gray-700">Sort by:</label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <ScaleIcon className="h-4 w-4 mr-2" />
-                Сравнить ({comparison.length})
-              </Link>
-            )}
+                <option value="year">Year</option>
+                <option value="price">Price</option>
+                <option value="ttaf">TTAF</option>
+                <option value="manufacturer">Manufacturer</option>
+              </select>
+              <button
+                onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                className="p-1 text-gray-600 hover:text-gray-900"
+              >
+                {sortOrder === 'asc' ? <ChevronUpIcon className="h-4 w-4" /> : <ChevronDownIcon className="h-4 w-4" />}
+              </button>
+            </div>
           </div>
-          
-          <div className="flex items-center gap-4">
-            <button className="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:text-black transition-colors">
-              <EyeIcon className="h-4 w-4 mr-2" />
-              Экспорт
-            </button>
-            <button className="flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:text-black transition-colors">
-              <AdjustmentsHorizontalIcon className="h-4 w-4 mr-2" />
-              Настройки
-            </button>
-          </div>
+
+          {/* Comparison Link */}
+          {comparisonList.length > 0 && (
+            <Link
+              to="/compare"
+              state={{ aircraftIds: comparisonList }}
+              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <ScaleIcon className="h-4 w-4 mr-2" />
+              Compare ({comparisonList.length})
+            </Link>
+          )}
         </div>
 
-        {/* Список самолетов */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+        {/* Aircraft Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sortedAircraft.map((aircraft) => (
-            <div key={aircraft.id} className="group cursor-pointer bg-white border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300">
-              {/* Изображение */}
-              <div className="relative h-64 overflow-hidden">
+            <div key={aircraft.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+              {/* Aircraft Image */}
+              <div className="relative h-48 bg-gray-200">
                 <img
-                  src="/images/Global Express Jet_0.jpg"
+                  src={aircraft.image}
                   alt={`${aircraft.manufacturer} ${aircraft.model}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
-                <div className="absolute top-4 right-4">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusConfig[aircraft.status as keyof typeof statusConfig]?.color}`}>
+                <div className="absolute top-4 left-4">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusConfig[aircraft.status as keyof typeof statusConfig]?.color}`}>
                     {statusConfig[aircraft.status as keyof typeof statusConfig]?.label}
                   </span>
                 </div>
+                <div className="absolute top-4 right-4 flex space-x-2">
+                  <button
+                    onClick={() => toggleFavorite(aircraft.id)}
+                    className="p-2 bg-white/80 rounded-full hover:bg-white transition-colors"
+                  >
+                    {favorites.includes(aircraft.id) ? 
+                      <StarIconSolid className="h-4 w-4 text-yellow-500" /> : 
+                      <StarIcon className="h-4 w-4 text-gray-600" />
+                    }
+                  </button>
+                  <button
+                    onClick={() => toggleComparison(aircraft.id)}
+                    className={`p-2 rounded-full transition-colors ${
+                      comparisonList.includes(aircraft.id) 
+                        ? 'bg-blue-600 text-white' 
+                        : 'bg-white/80 text-gray-600 hover:bg-white'
+                    }`}
+                  >
+                    <ScaleIcon className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
 
-              {/* Информация */}
+              {/* Aircraft Info */}
               <div className="p-6">
-                {/* Заголовок и действия */}
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {aircraft.year} {aircraft.manufacturer} {aircraft.model}
+                  </h3>
+                </div>
+                
+                <p className="text-sm text-gray-600 mb-2">S/N: {aircraft.series}</p>
+                <p className="text-sm text-gray-600 mb-4">Registration: {aircraft.registration}</p>
+                
+                <div className="grid grid-cols-2 gap-4 text-sm mb-4">
                   <div>
-                    <h3 className="text-xl font-semibold text-black mb-1">
-                      {aircraft.year} {aircraft.manufacturer} {aircraft.model}
-                    </h3>
-                    <p className="text-sm text-gray-500">{aircraft.registration}</p>
+                    <span className="text-gray-500">TTAF:</span>
+                    <span className="ml-1 font-medium">{aircraft.ttaf.toLocaleString()} hrs</span>
                   </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => toggleFavorite(aircraft.id)}
-                      className="p-2 text-gray-400 hover:text-yellow-500 transition-colors"
-                    >
-                      {favorites.includes(aircraft.id) ? (
-                        <StarIconSolid className="h-5 w-5 text-yellow-500" />
-                      ) : (
-                        <StarIcon className="h-5 w-5" />
-                      )}
-                    </button>
-                    <button
-                      onClick={() => toggleComparison(aircraft.id)}
-                      className={`p-2 transition-colors ${comparison.includes(aircraft.id) ? 'text-black' : 'text-gray-400 hover:text-black'}`}
-                    >
-                      <ScaleIcon className="h-5 w-5" />
-                    </button>
+                  <div>
+                    <span className="text-gray-500">Cycles:</span>
+                    <span className="ml-1 font-medium">{aircraft.landings.toLocaleString()}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500">Passengers:</span>
+                    <span className="ml-1 font-medium">{aircraft.passengers}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500">Location:</span>
+                    <span className="ml-1 font-medium">{aircraft.location}</span>
                   </div>
                 </div>
 
-                {/* Основные характеристики */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div>
-                    <p className="text-sm text-gray-500 mb-1">Цена</p>
-                    <p className="font-semibold text-black">{aircraft.price}</p>
+                <div className="flex justify-between items-center">
+                  <div className="text-xl font-bold text-blue-600">
+                    {aircraft.price}
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-500 mb-1">TTAF</p>
-                    <p className="font-semibold text-black">{aircraft.ttaf.toLocaleString()}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500 mb-1">Местоположение</p>
-                    <p className="font-semibold text-black">{aircraft.location}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500 mb-1">Пассажиры</p>
-                    <p className="font-semibold text-black">{aircraft.passengers}</p>
-                  </div>
+                  <Link
+                    to={`/aircraft/${aircraft.id}`}
+                    className="inline-flex items-center px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                  >
+                    <EyeIcon className="h-4 w-4 mr-2" />
+                    {t('aircraft.actions.viewDetails')}
+                  </Link>
                 </div>
-
-                {/* Кнопка просмотра */}
-                <Link
-                  to={`/aircraft/${aircraft.id}`}
-                  className="w-full bg-black text-white py-3 px-4 font-semibold hover:bg-gray-800 transition-colors text-center block"
-                >
-                  Подробнее
-                </Link>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Пустое состояние */}
+        {/* No Results */}
         {sortedAircraft.length === 0 && (
-          <div className="text-center py-20">
-            <div className="text-gray-400 text-8xl mb-6">✈️</div>
-            <h3 className="text-2xl font-bold text-black mb-4">
-              Самолеты не найдены
-            </h3>
-            <p className="text-lg text-gray-600 max-w-md mx-auto">
-              Попробуйте изменить критерии поиска или фильтры
-            </p>
+          <div className="text-center py-12">
+            <p className="text-xl text-gray-500">{t('aircraft.noResults')}</p>
           </div>
         )}
       </div>
     </div>
   );
-} 
+}

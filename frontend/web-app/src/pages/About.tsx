@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   ShieldCheckIcon,
   GlobeAltIcon,
@@ -10,6 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 const About: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-white pt-16">
       {/* Hero Section */}
@@ -17,11 +19,10 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              О ATP PLATFORM
+              {t('about.title')}
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Ведущая верифицированная торговая площадка для авиатехники, 
-              объединяющая профессиональных участников рынка
+              {t('about.subtitle')}
             </p>
           </div>
         </div>
@@ -33,28 +34,24 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-gray-900 mb-6">
-                Наша миссия
+                {t('about.mission.title')}
               </h2>
               <p className="text-lg text-gray-600 mb-6">
-                Создать безопасную и эффективную экосистему для торговли авиатехникой, 
-                где каждый участник проходит строгую верификацию и может быть уверен 
-                в надежности партнеров.
+                {t('about.mission.description1')}
               </p>
               <p className="text-lg text-gray-600 mb-8">
-                Мы стремимся упростить процесс покупки и продажи самолетов, 
-                предоставляя доступ к качественной информации и прямым контактам 
-                с проверенными владельцами и брокерами.
+                {t('about.mission.description2')}
               </p>
               <Link
                 to="/register"
                 className="inline-flex items-center px-6 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-colors"
               >
-                Присоединиться к платформе
+                {t('about.mission.joinPlatform')}
               </Link>
             </div>
             <div className="relative">
               <img
-                src="/images/Bombardier-Global-6000-sales-01-1536x771.jpg.webp"
+                src="/images/airbus-a330.jpg"
                 alt="ATP Platform"
                 className="w-full h-96 object-cover rounded-lg"
               />
@@ -68,10 +65,10 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Наши ценности
+              {t('about.values.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Принципы, которые лежат в основе нашей работы
+              {t('about.values.subtitle')}
             </p>
           </div>
 
@@ -80,54 +77,54 @@ const About: React.FC = () => {
               <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
                 <ShieldCheckIcon className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Безопасность</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('about.values.security.title')}</h3>
               <p className="text-gray-600">
-                Строгая верификация всех участников и защита конфиденциальной информации
+                {t('about.values.security.description')}
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
                 <GlobeAltIcon className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Глобальность</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('about.values.global.title')}</h3>
               <p className="text-gray-600">
-                Доступ к самолетам по всему миру и международная сеть партнеров
+                {t('about.values.global.description')}
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
                 <ClockIcon className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Эффективность</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('about.values.efficiency.title')}</h3>
               <p className="text-gray-600">
-                Быстрые сделки без лишних посредников и бюрократических процедур
+                {t('about.values.efficiency.description')}
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
                 <StarIcon className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Качество</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('about.values.quality.title')}</h3>
               <p className="text-gray-600">
-                Только проверенные самолеты с полной документацией и историей
+                {t('about.values.quality.description')}
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
                 <UserGroupIcon className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Сообщество</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('about.values.community.title')}</h3>
               <p className="text-gray-600">
-                Закрытое сообщество профессионалов с общими стандартами качества
+                {t('about.values.community.description')}
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
                 <ChartBarIcon className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Прозрачность</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('about.values.transparency.title')}</h3>
               <p className="text-gray-600">
-                Открытая информация о ценах, состоянии и истории самолетов
+                {t('about.values.transparency.description')}
               </p>
             </div>
           </div>
@@ -139,26 +136,26 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6">
-              ATP PLATFORM В ЦИФРАХ
+              {t('about.stats.title')}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-5xl font-bold mb-4">500+</div>
-              <div className="text-xl text-gray-300">Верифицированных самолетов</div>
+              <div className="text-5xl font-bold mb-4">{t('about.stats.aircraft')}</div>
+              <div className="text-xl text-gray-300">{t('about.stats.aircraftLabel')}</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold mb-4">50+</div>
-              <div className="text-xl text-gray-300">Проверенных брокеров</div>
+              <div className="text-5xl font-bold mb-4">{t('about.stats.brokers')}</div>
+              <div className="text-xl text-gray-300">{t('about.stats.brokersLabel')}</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold mb-4">25+</div>
-              <div className="text-xl text-gray-300">Стран присутствия</div>
+              <div className="text-5xl font-bold mb-4">{t('about.stats.countries')}</div>
+              <div className="text-xl text-gray-300">{t('about.stats.countriesLabel')}</div>
             </div>
             <div className="text-center">
               <div className="text-5xl font-bold mb-4">100%</div>
-              <div className="text-xl text-gray-300">Безопасность сделок</div>
+              <div className="text-xl text-gray-300">{t('about.stats.secureDeals')}</div>
             </div>
           </div>
         </div>
@@ -169,36 +166,36 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Наша команда
+              {t('about.team.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Эксперты с многолетним опытом в авиационной индустрии
+              {t('about.team.description')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-32 h-32 bg-gray-300 rounded-full mx-auto mb-6"></div>
-              <h3 className="text-xl font-semibold mb-2">Александр Петров</h3>
-              <p className="text-gray-600 mb-2">CEO & Founder</p>
+              <h3 className="text-xl font-semibold mb-2">{t('about.team.ceo.name')}</h3>
+              <p className="text-gray-600 mb-2">{t('about.team.ceo.position')}</p>
               <p className="text-sm text-gray-500">
-                15+ лет опыта в авиационной индустрии, бывший пилот и владелец авиакомпании
+                {t('about.team.ceo.experience')}
               </p>
             </div>
             <div className="text-center">
               <div className="w-32 h-32 bg-gray-300 rounded-full mx-auto mb-6"></div>
-              <h3 className="text-xl font-semibold mb-2">Мария Сидорова</h3>
-              <p className="text-gray-600 mb-2">CTO</p>
+              <h3 className="text-xl font-semibold mb-2">{t('about.team.coo.name')}</h3>
+              <p className="text-gray-600 mb-2">{t('about.team.coo.position')}</p>
               <p className="text-sm text-gray-500">
-                Эксперт в области авиационных технологий и систем безопасности
+                {t('about.team.coo.experience')}
               </p>
             </div>
             <div className="text-center">
               <div className="w-32 h-32 bg-gray-300 rounded-full mx-auto mb-6"></div>
-              <h3 className="text-xl font-semibold mb-2">Дмитрий Козлов</h3>
-              <p className="text-gray-600 mb-2">Head of Compliance</p>
+              <h3 className="text-xl font-semibold mb-2">{t('about.team.cto.name')}</h3>
+              <p className="text-gray-600 mb-2">{t('about.team.cto.position')}</p>
               <p className="text-sm text-gray-500">
-                Специалист по комплаенсу и международному авиационному праву
+                {t('about.team.cto.experience')}
               </p>
             </div>
           </div>
@@ -209,23 +206,23 @@ const About: React.FC = () => {
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            ГОТОВЫ ПРИСОЕДИНИТЬСЯ?
+            {t('about.cta.title')}
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Станьте частью эксклюзивного сообщества профессиональных участников рынка авиатехники
+            {t('about.cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/register"
               className="inline-flex items-center px-8 py-4 bg-black text-white font-semibold text-lg hover:bg-gray-800 transition-colors"
             >
-              Зарегистрироваться
+              {t('about.cta.register')}
             </Link>
             <Link
               to="/contact"
               className="inline-flex items-center px-8 py-4 border-2 border-black text-black font-semibold text-lg hover:bg-black hover:text-white transition-colors"
             >
-              Связаться с нами
+              {t('about.cta.contact')}
             </Link>
           </div>
         </div>

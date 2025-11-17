@@ -47,15 +47,15 @@ const ListingDetail: React.FC = () => {
       inquiries: 8,
       price: 25000000,
       currency: 'USD',
-      image: '/images/Bombardier-Global-6000-sales-01-1536x771.jpg.webp',
+      image: getPublicPath('/images/boeing-737.jpg'),
       complianceRequests: 3,
       reservations: 2,
       manufacturer: 'Boeing',
       model: '737-800',
       year: 2015,
       ttaf: 25000,
-      location: 'Москва, Россия',
-      description: 'Отличное состояние, полная документация, готов к продаже.'
+      location: 'Moscow, Russia',
+      description: 'Excellent condition, full documentation, ready for sale.'
     },
     {
       id: '2',
@@ -65,15 +65,15 @@ const ListingDetail: React.FC = () => {
       inquiries: 3,
       price: 35000000,
       currency: 'USD',
-      image: '/images/Global Express Jet_0.jpg',
+      image: getPublicPath('/images/boeing-777.jpg'),
       complianceRequests: 1,
       reservations: 0,
       manufacturer: 'Airbus',
       model: 'A320neo',
       year: 2018,
       ttaf: 12000,
-      location: 'Санкт-Петербург, Россия',
-      description: 'Практически новый самолет, минимальная наработка.'
+      location: 'Saint Petersburg, Russia',
+      description: 'Almost new aircraft with minimal hours.'
     },
   ];
 
@@ -184,7 +184,7 @@ const ListingDetail: React.FC = () => {
             className="flex items-center text-gray-600 hover:text-gray-900 mb-4"
           >
             <ArrowLeftIcon className="w-5 h-5 mr-2" />
-            Вернуться к объявлениям
+            Back to Listings
           </button>
           <div className="flex justify-between items-start">
             <div>
@@ -202,14 +202,14 @@ const ListingDetail: React.FC = () => {
                 className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center"
               >
                 <PencilIcon className="w-4 h-4 mr-2" />
-                Редактировать
+                Edit
               </button>
               <button
                 onClick={handleDelete}
                 className="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg flex items-center"
               >
                 <TrashIcon className="w-4 h-4 mr-2" />
-                Удалить
+                Delete
               </button>
             </div>
           </div>
@@ -229,32 +229,32 @@ const ListingDetail: React.FC = () => {
 
             {/* Description */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Описание</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Description</h2>
               <p className="text-gray-600">{listing.description}</p>
             </div>
 
             {/* Technical Details */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Технические характеристики</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Technical Specifications</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Производитель</span>
+                  <span className="text-sm font-medium text-gray-500">Manufacturer</span>
                   <p className="text-gray-900">{listing.manufacturer}</p>
                 </div>
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Модель</span>
+                  <span className="text-sm font-medium text-gray-500">Model</span>
                   <p className="text-gray-900">{listing.model}</p>
                 </div>
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Год выпуска</span>
+                  <span className="text-sm font-medium text-gray-500">Year</span>
                   <p className="text-gray-900">{listing.year}</p>
                 </div>
                 <div>
                   <span className="text-sm font-medium text-gray-500">TTAF</span>
-                  <p className="text-gray-900">{listing.ttaf.toLocaleString()} часов</p>
+                  <p className="text-gray-900">{listing.ttaf.toLocaleString()} hours</p>
                 </div>
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Местоположение</span>
+                  <span className="text-sm font-medium text-gray-500">Location</span>
                   <p className="text-gray-900">{listing.location}</p>
                 </div>
               </div>
@@ -265,42 +265,42 @@ const ListingDetail: React.FC = () => {
           <div className="space-y-6">
             {/* Price */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Цена</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Price</h3>
               <div className="text-3xl font-bold text-black mb-2">
                 {formatPrice(listing.price, listing.currency)}
               </div>
-              <p className="text-sm text-gray-600">Текущая цена объявления</p>
+              <p className="text-sm text-gray-600">Current listing price</p>
             </div>
 
             {/* Statistics */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Статистика</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Statistics</h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <EyeIcon className="w-5 h-5 text-gray-400 mr-2" />
-                    <span className="text-sm text-gray-600">Просмотры</span>
+                    <span className="text-sm text-gray-600">Views</span>
                   </div>
                   <span className="font-medium text-gray-900">{listing.views}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <UserIcon className="w-5 h-5 text-gray-400 mr-2" />
-                    <span className="text-sm text-gray-600">Запросы</span>
+                    <span className="text-sm text-gray-600">Inquiries</span>
                   </div>
                   <span className="font-medium text-gray-900">{listing.inquiries}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <ChartBarIcon className="w-5 h-5 text-gray-400 mr-2" />
-                    <span className="text-sm text-gray-600">Комплаенс-запросы</span>
+                    <span className="text-sm text-gray-600">Compliance Requests</span>
                   </div>
                   <span className="font-medium text-gray-900">{listing.complianceRequests}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <CurrencyDollarIcon className="w-5 h-5 text-gray-400 mr-2" />
-                    <span className="text-sm text-gray-600">Бронирования</span>
+                    <span className="text-sm text-gray-600">Reservations</span>
                   </div>
                   <span className="font-medium text-gray-900">{listing.reservations}</span>
                 </div>
@@ -309,16 +309,16 @@ const ListingDetail: React.FC = () => {
 
             {/* Actions */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Действия</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Actions</h3>
               <div className="space-y-3">
                 <button className="w-full bg-black hover:bg-gray-800 text-white py-2 px-4 rounded-lg font-medium">
-                  Просмотреть на сайте
+                  View on Site
                 </button>
                 <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg font-medium">
-                  Поделиться
+                  Share
                 </button>
                 <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg font-medium">
-                  Экспорт данных
+                  Export Data
                 </button>
               </div>
             </div>

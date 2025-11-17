@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
@@ -21,6 +22,7 @@ const Register: React.FC = () => {
   
   const { register, error, clearError } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -34,22 +36,22 @@ const Register: React.FC = () => {
     e.preventDefault();
     
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
-      toast.error('Пожалуйста, заполните все обязательные поля');
+      toast.error(t('auth.register.validation.fillRequired'));
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Пароли не совпадают');
+      toast.error(t('auth.register.validation.passwordMismatch'));
       return;
     }
 
     if (formData.password.length < 8) {
-      toast.error('Пароль должен содержать минимум 8 символов');
+      toast.error(t('auth.register.validation.passwordLength'));
       return;
     }
 
     if (!agreedToTerms) {
-      toast.error('Необходимо согласиться с условиями использования');
+      toast.error(t('auth.register.validation.agreeTerms'));
       return;
     }
 
@@ -67,10 +69,10 @@ const Register: React.FC = () => {
       };
 
       await register(userData);
-      toast.success('Регистрация успешна! Добро пожаловать в ATP Platform');
+      toast.success(t('auth.register.notifications.success'));
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Ошибка регистрации');
+      toast.error(error instanceof Error ? error.message : t('auth.register.notifications.error'));
     } finally {
       setIsLoading(false);
     }
@@ -85,15 +87,15 @@ const Register: React.FC = () => {
           </div>
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-          Создать аккаунт
+          {t('auth.register.title')}
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Или{' '}
+          {t('auth.register.hasAccount')}{' '}
           <Link
             to="/login"
             className="font-medium text-black hover:text-gray-700"
           >
-            войдите в существующий аккаунт
+            {t('auth.register.loginLink')}
           </Link>
         </p>
       </div>
@@ -104,7 +106,7 @@ const Register: React.FC = () => {
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                  Имя *
+                  {t('auth.register.firstName')} *
                 </label>
                 <input
                   id="firstName"
@@ -114,13 +116,13 @@ const Register: React.FC = () => {
                   value={formData.firstName}
                   onChange={handleChange}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
-                  placeholder="Иван"
+                  placeholder={t('auth.register.placeholders.firstName')}
                 />
               </div>
 
               <div>
                 <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                  Фамилия *
+                  {t('auth.register.lastName')} *
                 </label>
                 <input
                   id="lastName"
@@ -130,14 +132,14 @@ const Register: React.FC = () => {
                   value={formData.lastName}
                   onChange={handleChange}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
-                  placeholder="Иванов"
+                  placeholder={t('auth.register.placeholders.lastName')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email адрес *
+                {t('auth.register.email')} *
               </label>
               <input
                 id="email"
@@ -154,7 +156,7 @@ const Register: React.FC = () => {
 
             <div>
               <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-                Роль *
+                {t('auth.register.businessType')}
               </label>
               <select
                 id="role"
@@ -163,15 +165,15 @@ const Register: React.FC = () => {
                 onChange={handleChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
               >
-                <option value="buyer">Покупатель</option>
-                <option value="seller">Продавец</option>
+                <option value="buyer">{t('dashboard.status.buyer')}</option>
+                <option value="seller">{t('dashboard.status.seller')}</option>
               </select>
             </div>
 
             {formData.role === 'seller' && (
               <div>
                 <label htmlFor="companyName" className="block text-sm font-medium text-gray-700">
-                  Название компании
+                  {t('auth.register.company')}
                 </label>
                 <input
                   id="companyName"
@@ -180,14 +182,14 @@ const Register: React.FC = () => {
                   value={formData.companyName}
                   onChange={handleChange}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
-                  placeholder="ООО АвиаТрейд"
+                  placeholder={t('auth.register.placeholders.company')}
                 />
               </div>
             )}
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Пароль *
+                {t('auth.register.password')} *
               </label>
               <div className="mt-1 relative">
                 <input
@@ -198,7 +200,7 @@ const Register: React.FC = () => {
                   value={formData.password}
                   onChange={handleChange}
                   className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
-                  placeholder="Минимум 8 символов"
+                  placeholder={t('auth.register.placeholders.password')}
                 />
                 <button
                   type="button"
@@ -216,7 +218,7 @@ const Register: React.FC = () => {
 
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                Подтвердите пароль *
+                {t('auth.register.confirmPassword')} *
               </label>
               <div className="mt-1 relative">
                 <input
@@ -227,7 +229,7 @@ const Register: React.FC = () => {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black"
-                  placeholder="Повторите пароль"
+                  placeholder={t('auth.register.placeholders.confirmPassword')}
                 />
                 <button
                   type="button"
@@ -253,14 +255,7 @@ const Register: React.FC = () => {
                 className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
               />
               <label htmlFor="agree-terms" className="ml-2 block text-sm text-gray-900">
-                Я согласен с{' '}
-                <span className="text-black font-medium">
-                  условиями использования
-                </span>
-                {' '}и{' '}
-                <span className="text-black font-medium">
-                  политикой конфиденциальности
-                </span>
+                {t('auth.register.agreeTerms')}
               </label>
             </div>
 
@@ -276,7 +271,7 @@ const Register: React.FC = () => {
                 disabled={isLoading}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Создание аккаунта...' : 'Создать аккаунт'}
+                {isLoading ? t('auth.register.notifications.creating') : t('auth.register.registerButton')}
               </button>
             </div>
           </form>

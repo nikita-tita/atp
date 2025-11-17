@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { 
   UserIcon,
   CreditCardIcon,
@@ -47,6 +48,7 @@ interface ComplianceData {
 const Dashboard: React.FC = () => {
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('overview');
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileData, setProfileData] = useState({
@@ -70,10 +72,10 @@ const Dashboard: React.FC = () => {
 
   // Mock data
   const stats = [
-    { name: 'Активные объявления', value: '3', change: '+12%', changeType: 'positive' },
-    { name: 'Просмотры за месяц', value: '1,234', change: '+8%', changeType: 'positive' },
-    { name: 'Входящие сообщения', value: '15', change: '+23%', changeType: 'positive' },
-    { name: 'Забронированные клиенты', value: '7', change: '+5%', changeType: 'positive' },
+    { name: t('dashboard.overview.stats.activeListings'), value: '3', change: '+12%', changeType: 'positive' },
+    { name: t('dashboard.overview.stats.totalViews'), value: '1,234', change: '+8%', changeType: 'positive' },
+    { name: t('dashboard.overview.stats.unreadMessages'), value: '15', change: '+23%', changeType: 'positive' },
+    { name: t('dashboard.overview.stats.pendingCompliance'), value: '7', change: '+5%', changeType: 'positive' },
   ];
 
   const recentActivity = [
@@ -81,7 +83,7 @@ const Dashboard: React.FC = () => {
       id: 1,
       type: 'listing',
       title: 'Boeing 737-800 обновлено',
-      description: 'Объявление обновлено с новой информацией',
+      description: t('dashboard.activity.updated'),
       time: '2 часа назад',
       status: 'success',
       action: 'view',
@@ -89,8 +91,8 @@ const Dashboard: React.FC = () => {
     {
       id: 2,
       type: 'message',
-      title: 'Новое сообщение от покупателя',
-      description: 'Получено сообщение по объявлению Airbus A320',
+      title: t('dashboard.activity.newMessage'),
+      description: t('dashboard.activity.messageReceived') + ' Airbus A320',
       time: '4 часа назад',
       status: 'info',
       action: 'reply',
@@ -98,8 +100,8 @@ const Dashboard: React.FC = () => {
     {
       id: 3,
       type: 'verification',
-      title: 'Верификация завершена',
-      description: 'Ваш аккаунт успешно верифицирован',
+      title: t('dashboard.activity.verificationComplete'),
+      description: t('dashboard.activity.verificationComplete'),
       time: '1 день назад',
       status: 'success',
       action: 'view',
@@ -107,8 +109,8 @@ const Dashboard: React.FC = () => {
     {
       id: 4,
       type: 'compliance',
-      title: 'Заявка на комплаенс отправлена',
-      description: 'Заявка на проверку для Gulfstream G650',
+      title: t('dashboard.activity.complianceSubmitted'),
+      description: t('dashboard.activity.complianceSubmitted') + ' Gulfstream G650',
       time: '2 дня назад',
       status: 'pending',
       action: 'track',
@@ -124,7 +126,7 @@ const Dashboard: React.FC = () => {
       inquiries: 8,
       price: 25000000,
       currency: 'USD',
-      image: '/images/Bombardier-Global-6000-sales-01-1536x771.jpg.webp',
+      image: getPublicPath('/images/Bombardier-Global-6000-sales-01-1536x771.jpg.webp'),
       complianceRequests: 3,
       reservations: 2,
     },
@@ -136,7 +138,7 @@ const Dashboard: React.FC = () => {
       inquiries: 3,
       price: 35000000,
       currency: 'USD',
-      image: '/images/Global Express Jet_0.jpg',
+      image: getPublicPath('/images/boeing-777.jpg'),
       complianceRequests: 1,
       reservations: 0,
     },
@@ -146,7 +148,7 @@ const Dashboard: React.FC = () => {
     {
       id: '1',
       aircraft: 'Gulfstream G650',
-      buyer: 'Иван Петров',
+      buyer: 'John Smith',
       status: 'approved',
       date: '2024-01-15',
       price: 45000000,
@@ -154,7 +156,7 @@ const Dashboard: React.FC = () => {
     {
       id: '2',
       aircraft: 'Bombardier Global 6000',
-      buyer: 'Алексей Сидоров',
+      buyer: 'Michael Johnson',
       status: 'pending',
       date: '2024-01-14',
       price: 38000000,
@@ -162,13 +164,13 @@ const Dashboard: React.FC = () => {
   ];
 
   const tabs = [
-    { id: 'overview', name: 'Обзор', icon: ChartBarIcon },
-    { id: 'listings', name: 'Мои объявления', icon: DocumentTextIcon },
-    { id: 'compliance', name: 'Комплаенс', icon: ShieldCheckIcon },
-    { id: 'messages', name: 'Сообщения', icon: BellIcon },
-    { id: 'verification', name: 'Верификация', icon: UserIcon },
-    { id: 'billing', name: 'Биллинг', icon: CreditCardIcon },
-    { id: 'settings', name: 'Настройки', icon: Cog6ToothIcon },
+    { id: 'overview', name: t('dashboard.tabs.overview'), icon: ChartBarIcon },
+    { id: 'listings', name: t('dashboard.tabs.listings'), icon: DocumentTextIcon },
+    { id: 'compliance', name: t('dashboard.tabs.compliance'), icon: ShieldCheckIcon },
+    { id: 'messages', name: t('dashboard.tabs.messages'), icon: BellIcon },
+    { id: 'verification', name: t('dashboard.tabs.verification'), icon: UserIcon },
+    { id: 'billing', name: t('dashboard.tabs.billing'), icon: CreditCardIcon },
+    { id: 'settings', name: t('dashboard.tabs.settings'), icon: Cog6ToothIcon },
   ];
 
   const formatPrice = (price: number, currency: string) => {
@@ -199,15 +201,15 @@ const Dashboard: React.FC = () => {
   const getStatusText = (status: string) => {
     switch (status) {
       case 'active':
-        return 'Активно';
+        return t('dashboard.status.active');
       case 'pending':
-        return 'На модерации';
+        return t('dashboard.status.pending');
       case 'inactive':
-        return 'Неактивно';
+        return t('dashboard.status.inactive');
       case 'approved':
-        return 'Одобрено';
+        return t('dashboard.status.approved');
       case 'rejected':
-        return 'Отклонено';
+        return t('dashboard.status.rejected');
       default:
         return status;
     }
@@ -231,7 +233,7 @@ const Dashboard: React.FC = () => {
     }
     
     // В реальном приложении здесь будет отправка на сервер
-    toast.success('Профиль успешно обновлен');
+    toast.success(t('dashboard.notifications.profileUpdated'));
     setIsEditingProfile(false);
   };
 
@@ -293,20 +295,20 @@ const Dashboard: React.FC = () => {
     setIsAircraftFormOpen(true);
   };
 
-  const handleDeleteAircraft = (id: string) => {
-    if (window.confirm('Вы уверены, что хотите удалить это объявление?')) {
+      const handleDeleteAircraft = (_id: string) => {
+    if (window.confirm(t('dashboard.notifications.deleteConfirm'))) {
       // В реальном приложении здесь будет API вызов
-      toast.success('Объявление удалено');
+      toast.success(t('dashboard.notifications.listingDeleted'));
     }
   };
 
-  const handleSaveAircraft = (aircraftData: AircraftFormData) => {
+  const handleSaveAircraft = (_aircraftData: AircraftFormData) => {
     if (aircraftFormMode === 'add') {
       // Добавление нового объявления
-      toast.success('Объявление добавлено!');
+      toast.success(t('dashboard.notifications.listingAdded'));
     } else {
       // Обновление существующего объявления
-      toast.success('Объявление обновлено!');
+      toast.success(t('dashboard.notifications.listingUpdated'));
     }
     setIsAircraftFormOpen(false);
     setEditingAircraft(null);
@@ -326,12 +328,12 @@ const Dashboard: React.FC = () => {
       buyerName: compliance.buyer,
       buyerEmail: 'buyer@example.com',
       buyerPhone: '+7 (999) 123-45-67',
-      buyerCompany: 'ООО Покупатель',
-      buyerPosition: 'Директор',
-      brokerName: 'Иван Брокер',
+      buyerCompany: 'Aircraft Buyers LLC',
+      buyerPosition: 'Director',
+      brokerName: 'James Wilson',
       brokerEmail: 'broker@example.com',
       brokerPhone: '+7 (999) 987-65-43',
-      brokerCompany: 'ООО Брокер',
+      brokerCompany: 'Premium Brokers Inc',
       brokerLicense: 'LIC-123456',
       brokerExperience: '5 лет',
       budget: compliance.price.toString(),
@@ -350,9 +352,9 @@ const Dashboard: React.FC = () => {
     setIsComplianceDetailOpen(true);
   };
 
-  const handleComplianceStatusChange = (id: string, status: 'approved' | 'rejected') => {
+  const handleComplianceStatusChange = (_id: string, status: 'approved' | 'rejected') => {
     // В реальном приложении здесь будет API вызов
-    toast.success(`Заявка ${status === 'approved' ? 'одобрена' : 'отклонена'}`);
+    toast.success(status === 'approved' ? t('dashboard.notifications.requestApproved') : t('dashboard.notifications.requestRejected'));
     setIsComplianceDetailOpen(false);
     setSelectedCompliance(null);
   };
@@ -362,9 +364,9 @@ const Dashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Личный кабинет</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('dashboard.title')}</h1>
           <p className="text-gray-600">
-            Добро пожаловать, {user?.firstName} {user?.lastName}!
+            {t('dashboard.welcome')}, {user?.firstName} {user?.lastName}!
           </p>
         </div>
 
@@ -422,12 +424,12 @@ const Dashboard: React.FC = () => {
                       ? 'bg-green-100 text-green-800' 
                       : 'bg-yellow-100 text-yellow-800'
                   }`}>
-                    {user?.verificationStatus === 'verified' ? 'Проверен' : 'На проверке'}
+                    {user?.verificationStatus === 'verified' ? t('dashboard.status.verified') : t('dashboard.status.underReview')}
                   </span>
                 </div>
                 <div className="mt-2">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                    {user?.role === 'buyer' ? 'Покупатель' : 'Продавец'}
+                    {user?.role === 'buyer' ? t('dashboard.status.buyer') : t('dashboard.status.seller')}
                   </span>
                 </div>
               </div>
@@ -479,7 +481,7 @@ const Dashboard: React.FC = () => {
                 {/* Recent Activity */}
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200">
                   <div className="px-6 py-4 border-b border-gray-200">
-                    <h3 className="text-lg font-semibold text-gray-900">Последняя активность</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t('activity.lastActivity')}</h3>
                   </div>
                   <div className="p-6">
                     <div className="space-y-4">
@@ -496,9 +498,9 @@ const Dashboard: React.FC = () => {
                             <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
                           </div>
                           <button className="text-xs text-black hover:text-gray-700 font-medium">
-                            {activity.action === 'view' && 'Просмотр'}
-                            {activity.action === 'reply' && 'Ответить'}
-                            {activity.action === 'track' && 'Отследить'}
+                            {activity.action === 'view' && t('dashboard.activity.view')}
+                            {activity.action === 'reply' && t('dashboard.activity.reply')}
+                            {activity.action === 'track' && t('dashboard.activity.track')}
                           </button>
                         </div>
                       ))}
@@ -512,13 +514,13 @@ const Dashboard: React.FC = () => {
             {activeTab === 'listings' && (
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-lg font-semibold text-gray-900">Мои объявления</h2>
+                  <h2 className="text-lg font-semibold text-gray-900">{t('listing.myListings')}</h2>
                   <button 
                     onClick={handleAddAircraft}
                     className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium flex items-center"
                   >
                     <PlusIcon className="w-4 h-4 mr-2" />
-                    Добавить объявление
+                    {t('listing.addListing')}
                   </button>
                 </div>
 
@@ -544,19 +546,19 @@ const Dashboard: React.FC = () => {
 
                         <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-4">
                           <div>
-                            <span className="font-medium">{listing.views}</span> просмотров
+                            <span className="font-medium">{listing.views}</span> {t('listing.views')}
                           </div>
                           <div>
-                            <span className="font-medium">{listing.inquiries}</span> запросов
+                            <span className="font-medium">{listing.inquiries}</span> {t('listing.requests')}
                           </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-4">
                           <div>
-                            <span className="font-medium">{listing.complianceRequests}</span> комплаенс-запросов
+                            <span className="font-medium">{listing.complianceRequests}</span> {t('listing.complianceRequests')}
                           </div>
                           <div>
-                            <span className="font-medium">{listing.reservations}</span> бронирований
+                            <span className="font-medium">{listing.reservations}</span> {t('listing.reservations')}
                           </div>
                         </div>
 
@@ -566,14 +568,14 @@ const Dashboard: React.FC = () => {
                             className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-md text-sm font-medium flex items-center justify-center"
                           >
                             <EyeIcon className="w-4 h-4 mr-1" />
-                            Просмотр
+                            {t('listing.view')}
                           </button>
                           <button 
                             onClick={() => handleEditAircraft(listing)}
                             className="flex-1 bg-black hover:bg-gray-800 text-white py-2 px-3 rounded-md text-sm font-medium flex items-center justify-center"
                           >
                             <PencilIcon className="w-4 h-4 mr-1" />
-                            Редактировать
+                            {t('listing.edit')}
                           </button>
                           <button 
                             onClick={() => handleDeleteAircraft(listing.id)}
@@ -593,12 +595,12 @@ const Dashboard: React.FC = () => {
             {activeTab === 'compliance' && (
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-lg font-semibold text-gray-900">Комплаенс-запросы</h2>
+                  <h2 className="text-lg font-semibold text-gray-900">{t('compliance.title')}</h2>
                 </div>
 
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200">
                   <div className="px-6 py-4 border-b border-gray-200">
-                    <h3 className="text-lg font-semibold text-gray-900">Активные запросы</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t('compliance.activeRequests')}</h3>
                   </div>
                   <div className="p-6">
                     <div className="space-y-4">
@@ -626,7 +628,7 @@ const Dashboard: React.FC = () => {
                               onClick={() => handleViewCompliance(request)}
                               className="bg-black hover:bg-gray-800 text-white px-3 py-1 rounded text-sm"
                             >
-                              Просмотреть детали
+                              {t('compliance.viewDetails')}
                             </button>
                             {request.status === 'pending' && (
                               <>
@@ -634,13 +636,13 @@ const Dashboard: React.FC = () => {
                                   onClick={() => handleComplianceStatusChange(request.id, 'approved')}
                                   className="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1 rounded text-sm"
                                 >
-                                  Одобрить
+                                  {t('compliance.approve')}
                                 </button>
                                 <button 
                                   onClick={() => handleComplianceStatusChange(request.id, 'rejected')}
                                   className="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded text-sm"
                                 >
-                                  Отклонить
+                                  {t('compliance.reject')}
                                 </button>
                               </>
                             )}
@@ -657,19 +659,19 @@ const Dashboard: React.FC = () => {
             {activeTab === 'messages' && (
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-lg font-semibold text-gray-900">Сообщения</h2>
+                  <h2 className="text-lg font-semibold text-gray-900">{t('messages.title')}</h2>
                   <button 
                     onClick={() => setIsChatOpen(true)}
                     className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium flex items-center"
                   >
                     <BellIcon className="w-4 h-4 mr-2" />
-                    Открыть чат
+                    {t('messages.openChat')}
                   </button>
                 </div>
 
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200">
                   <div className="px-6 py-4 border-b border-gray-200">
-                    <h3 className="text-lg font-semibold text-gray-900">Последние сообщения</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t('messages.recent')}</h3>
                   </div>
                   <div className="p-6">
                     <div className="space-y-4">
@@ -719,7 +721,7 @@ const Dashboard: React.FC = () => {
             {activeTab === 'verification' && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="px-6 py-4 border-b border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900">Верификация</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">{t('profile.verificationTitle')}</h3>
                 </div>
                 <div className="p-6">
                   <div className="text-center">
@@ -727,17 +729,17 @@ const Dashboard: React.FC = () => {
                       <CheckCircleIcon className="w-8 h-8 text-green-600" />
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Верификация завершена
+                      {t('profile.verificationComplete')}
                     </h3>
                     <p className="text-gray-600 mb-4">
-                      Ваш аккаунт успешно прошел проверку. Теперь вы можете использовать все функции платформы.
+                      {t('profile.accountVerified')}
                     </p>
                     <div className="bg-green-50 border border-green-200 rounded-md p-4">
                       <div className="text-sm text-green-800">
-                        <strong>Статус:</strong> Проверен ✓
+                        <strong>{t('profile.status')}:</strong> {t('profile.verified')} ✓
                       </div>
                       <div className="text-sm text-green-800 mt-1">
-                        <strong>Дата проверки:</strong> {new Date().toLocaleDateString()}
+                        <strong>{t('profile.verificationDate')}:</strong> {new Date().toLocaleDateString()}
                       </div>
                     </div>
                   </div>
@@ -749,35 +751,35 @@ const Dashboard: React.FC = () => {
             {activeTab === 'billing' && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="px-6 py-4 border-b border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900">Биллинг</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">{t('dashboard.tabs.billing')}</h3>
                 </div>
                 <div className="p-6">
                   <div className="mb-6">
-                    <h4 className="font-medium text-gray-900 mb-2">Текущий план</h4>
+                    <h4 className="font-medium text-gray-900 mb-2">{t('profile.currentPlan')}</h4>
                     <div className="bg-gray-50 rounded-lg p-4">
                       <div className="flex justify-between items-center">
                         <div>
                           <p className="font-medium text-gray-900">
-                            {user?.subscription.plan === 'basic' && 'Базовый план'}
-                            {user?.subscription.plan === 'professional' && 'Профессиональный план'}
-                            {user?.subscription.plan === 'corporate' && 'Корпоративный план'}
+                            {user?.subscription.plan === 'basic' && t('dashboard.subscription.basic')}
+                            {user?.subscription.plan === 'professional' && t('dashboard.subscription.professional')}
+                            {user?.subscription.plan === 'corporate' && t('dashboard.subscription.corporate')}
                           </p>
                           <p className="text-sm text-gray-600">
-                            Истекает: {new Date(user?.subscription.expiresAt || '').toLocaleDateString()}
+                            {t('billing.expires')}: {new Date(user?.subscription.expiresAt || '').toLocaleDateString()}
                           </p>
                         </div>
                         <button className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                          Обновить план
+                          {t('billing.updatePlan')}
                         </button>
                       </div>
                     </div>
                   </div>
                   
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-2">История платежей</h4>
+                    <h4 className="font-medium text-gray-900 mb-2">{t('profile.paymentHistory')}</h4>
                     <div className="text-center py-8">
                       <CreditCardIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                      <p className="text-gray-600">История платежей пока пуста</p>
+                      <p className="text-gray-600">{t('billing.paymentHistoryEmpty')}</p>
                     </div>
                   </div>
                 </div>
@@ -788,14 +790,14 @@ const Dashboard: React.FC = () => {
             {activeTab === 'settings' && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="px-6 py-4 border-b border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900">Настройки профиля</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">{t('profile.settings')}</h3>
                 </div>
                 <div className="p-6">
                   <form className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Имя *
+                          {t('profile.firstName')} *
                         </label>
                         <input
                           type="text"
@@ -808,7 +810,7 @@ const Dashboard: React.FC = () => {
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Фамилия *
+                          {t('profile.lastName')} *
                         </label>
                         <input
                           type="text"
@@ -822,9 +824,9 @@ const Dashboard: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email *
-                      </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          {t('profile.email')} *
+                        </label>
                       <input
                         type="email"
                         name="email"
@@ -836,9 +838,9 @@ const Dashboard: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Телефон
-                      </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          {t('profile.phone')}
+                        </label>
                       <input
                         type="tel"
                         name="phone"
@@ -852,7 +854,7 @@ const Dashboard: React.FC = () => {
                     {user?.role === 'seller' && (
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Компания
+                          {t('profile.company')}
                         </label>
                         <input
                           type="text"
@@ -866,9 +868,9 @@ const Dashboard: React.FC = () => {
                     )}
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Должность
-                      </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          {t('profile.position')}
+                        </label>
                       <input
                         type="text"
                         name="position"
@@ -881,7 +883,7 @@ const Dashboard: React.FC = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Местоположение
+                        {t('profile.location')}
                       </label>
                       <input
                         type="text"
@@ -895,7 +897,7 @@ const Dashboard: React.FC = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        О себе
+                        {t('profile.about')}
                       </label>
                       <textarea
                         name="bio"
@@ -914,7 +916,7 @@ const Dashboard: React.FC = () => {
                           onClick={() => setIsEditingProfile(true)}
                           className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-md font-medium"
                         >
-                          Редактировать профиль
+                          {t('profile.editProfile')}
                         </button>
                       ) : (
                         <>
@@ -930,7 +932,7 @@ const Dashboard: React.FC = () => {
                             onClick={handleProfileSave}
                             className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-md font-medium"
                           >
-                            Сохранить
+                            {t('profile.save')}
                           </button>
                         </>
                       )}
@@ -973,7 +975,11 @@ const Dashboard: React.FC = () => {
         isOpen={isChatOpen}
         onClose={() => setIsChatOpen(false)}
         currentUserId={user?.id || ''}
-        currentUserRole={(user?.role === 'admin' ? 'buyer' : user?.role) || 'buyer'}
+        currentUserRole={
+          user?.role === 'buyer' || user?.role === 'seller' 
+            ? user.role 
+            : 'buyer'
+        }
       />
     </div>
   );

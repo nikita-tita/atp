@@ -3,8 +3,8 @@ import {
   CubeIcon,
   CurrencyDollarIcon,
   EyeIcon,
-  TrendingUpIcon,
-  TrendingDownIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
 } from '@heroicons/react/24/outline';
 
 const stats = [
@@ -56,9 +56,9 @@ export default function Analytics() {
                         stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
                       }`}>
                         {stat.changeType === 'positive' ? (
-                          <TrendingUpIcon className="h-4 w-4 mr-1" />
+                          <ArrowTrendingUpIcon className="h-4 w-4 mr-1" />
                         ) : (
-                          <TrendingDownIcon className="h-4 w-4 mr-1" />
+                          <ArrowTrendingDownIcon className="h-4 w-4 mr-1" />
                         )}
                         {stat.change}
                       </div>
@@ -141,7 +141,7 @@ export default function Analytics() {
           <h3 className="text-lg font-medium text-gray-900 mb-4">Динамика активности</h3>
           <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
             <div className="text-center">
-              <TrendingUpIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+              <ArrowTrendingUpIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
               <p className="text-sm text-gray-500">График активности будет добавлен</p>
             </div>
           </div>

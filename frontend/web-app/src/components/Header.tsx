@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon, UserIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
-
-const navigation = [
-  { name: 'Главная', href: '/' },
-  { name: 'Самолеты', href: '/aircraft' },
-  { name: 'Сравнение', href: '/compare' },
-  { name: 'О нас', href: '/about' },
-  { name: 'Контакты', href: '/contact' },
-];
+import LanguageSwitcher from './LanguageSwitcher';
 
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth();
+  const { t } = useTranslation();
+
+  const navigation = [
+    { name: t('navigation.home'), href: '/' },
+    { name: t('navigation.sales'), href: '/sales' },
+    { name: t('navigation.leasing'), href: '/leasing' },
+    { name: t('navigation.acmi'), href: '/acmi' },
+    { name: t('navigation.compare'), href: '/compare' },
+    { name: t('navigation.about'), href: '/about' },
+    { name: t('navigation.contact'), href: '/contact' },
+  ];
 
   const handleLogout = () => {
     logout();
@@ -35,7 +40,7 @@ const Header: React.FC = () => {
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
             onClick={() => setMobileMenuOpen(true)}
           >
-            <span className="sr-only">Открыть главное меню</span>
+            <span className="sr-only">{t('common.openMenu')}</span>
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
@@ -54,7 +59,8 @@ const Header: React.FC = () => {
             </Link>
           ))}
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-6">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-6 lg:items-center">
+          <LanguageSwitcher />
           {isAuthenticated ? (
             <div className="flex items-center gap-4">
               <Link
@@ -70,7 +76,7 @@ const Header: React.FC = () => {
                 onClick={handleLogout}
                 className="text-sm font-semibold leading-6 text-gray-900 hover:text-black"
               >
-                Выйти
+                {t('navigation.logout')}
               </button>
             </div>
           ) : (
@@ -79,13 +85,13 @@ const Header: React.FC = () => {
                 to="/login"
                 className="text-sm font-semibold leading-6 text-gray-900 hover:text-black"
               >
-                Войти
+                {t('navigation.login')}
               </Link>
               <Link
                 to="/register"
                 className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
               >
-                Регистрация
+                {t('navigation.register')}
               </Link>
             </>
           )}
@@ -106,7 +112,7 @@ const Header: React.FC = () => {
                 className="-m-2.5 rounded-md p-2.5 text-gray-700"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span className="sr-only">Закрыть меню</span>
+                <span className="sr-only">{t('common.close')}</span>
                 <XMarkIcon className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
@@ -145,7 +151,7 @@ const Header: React.FC = () => {
                         onClick={handleLogout}
                         className="mt-4 block rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800"
                       >
-                        Выйти
+                        {t('navigation.logout')}
                       </button>
                     </>
                   ) : (
@@ -155,14 +161,14 @@ const Header: React.FC = () => {
                         className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        Войти
+                        {t('navigation.login')}
                       </Link>
                       <Link
                         to="/register"
                         className="mt-4 block rounded-md bg-black px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800"
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        Регистрация
+                        {t('navigation.register')}
                       </Link>
                     </>
                   )}

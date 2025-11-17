@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   ArrowLeftIcon,
   TrashIcon,
@@ -12,93 +13,93 @@ import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 const aircraftData = [
   {
     id: 1,
-    manufacturer: 'Gulfstream',
-    model: 'G650',
-    series: '6062',
-    registration: 'OE-LVJ',
-    year: 2014,
+    manufacturer: 'Boeing',
+    model: '737-800',
+    series: 'NG',
+    registration: 'N737BA',
+    year: 2015,
     status: 'FS',
-    ttaf: 5340,
-    landings: 1980,
-    price: 'Inquire',
-    location: 'Schwechat, Austria',
-    mtow: '99,598 Lbs',
+    ttaf: 15000,
+    landings: 8500,
+    price: '$25,000,000',
+    location: 'Miami, USA',
+    mtow: '174,200 Lbs',
     engines: 2,
-    engineType: 'RR BR700-725A1-12',
-    maintenancePlan: 'RR CorporateCare',
-    interior: 'Executive',
-    passengers: 14,
-    color: 'White w/Blue & Red',
-    range: '7,000 nm',
-    maxSpeed: 'Mach 0.925',
-    fuelCapacity: '41,300 lbs',
-    length: '99.8 ft',
-    wingspan: '99.6 ft',
-    height: '20.4 ft',
-    cabinLength: '46.8 ft',
-    cabinWidth: '6.5 ft',
-    cabinHeight: '6.2 ft',
-    baggageCapacity: '175 cu ft',
+    engineType: 'CFM56-7B',
+    maintenancePlan: 'Boeing GoldCare',
+    interior: 'Economy',
+    passengers: 189,
+    color: 'White w/Blue Livery',
+    range: '3,060 nm',
+    maxSpeed: 'Mach 0.82',
+    fuelCapacity: '26,020 liters',
+    length: '129.5 ft',
+    wingspan: '117.5 ft',
+    height: '41.2 ft',
+    cabinLength: '105.7 ft',
+    cabinWidth: '11.7 ft',
+    cabinHeight: '7.1 ft',
+    baggageCapacity: '1,555 cu ft',
   },
   {
     id: 2,
-    manufacturer: 'Gulfstream',
-    model: 'G650',
-    series: '6088',
-    registration: 'N380SE',
-    year: 2014,
+    manufacturer: 'Airbus',
+    model: 'A320neo',
+    series: 'neo',
+    registration: 'F-A320N',
+    year: 2020,
     status: 'FS',
-    ttaf: 3600,
-    landings: 1450,
-    price: 'Inquire',
-    location: 'Miami, FL',
-    mtow: '99,598 Lbs',
+    ttaf: 5000,
+    landings: 3200,
+    price: '$35,000,000',
+    location: 'Paris, France',
+    mtow: '174,165 Lbs',
     engines: 2,
-    engineType: 'RR BR700-725A1-12',
-    maintenancePlan: 'RR CorporateCare',
-    interior: 'Executive',
-    passengers: 14,
-    color: 'White w/Gold',
-    range: '7,000 nm',
-    maxSpeed: 'Mach 0.925',
-    fuelCapacity: '41,300 lbs',
-    length: '99.8 ft',
-    wingspan: '99.6 ft',
-    height: '20.4 ft',
-    cabinLength: '46.8 ft',
-    cabinWidth: '6.5 ft',
-    cabinHeight: '6.2 ft',
-    baggageCapacity: '175 cu ft',
+    engineType: 'LEAP-1A',
+    maintenancePlan: 'Airbus FHS',
+    interior: 'Economy',
+    passengers: 180,
+    color: 'White w/Red Accents',
+    range: '3,700 nm',
+    maxSpeed: 'Mach 0.82',
+    fuelCapacity: '26,730 liters',
+    length: '123.3 ft',
+    wingspan: '117.5 ft',
+    height: '38.7 ft',
+    cabinLength: '106.0 ft',
+    cabinWidth: '12.1 ft',
+    cabinHeight: '7.4 ft',
+    baggageCapacity: '1,430 cu ft',
   },
   {
     id: 3,
-    manufacturer: 'Bombardier',
-    model: 'Global 6000',
-    series: '7001',
-    registration: 'N123AB',
-    year: 2016,
+    manufacturer: 'Comac',
+    model: 'C919',
+    series: 'C919-100',
+    registration: 'B-919A',
+    year: 2023,
     status: 'FS-Unv',
-    ttaf: 2800,
-    landings: 1200,
-    price: '$45,000,000',
-    location: 'Los Angeles, CA',
-    mtow: '99,500 Lbs',
+    ttaf: 500,
+    landings: 250,
+    price: '$65,000,000',
+    location: 'Shanghai, China',
+    mtow: '170,330 Lbs',
     engines: 2,
-    engineType: 'RR BR710A2-20',
-    maintenancePlan: 'RR CorporateCare',
-    interior: 'Executive',
-    passengers: 13,
-    color: 'White w/Silver',
-    range: '6,000 nm',
-    maxSpeed: 'Mach 0.89',
-    fuelCapacity: '43,090 lbs',
-    length: '99.4 ft',
-    wingspan: '94.0 ft',
-    height: '25.5 ft',
-    cabinLength: '43.3 ft',
-    cabinWidth: '7.2 ft',
-    cabinHeight: '6.2 ft',
-    baggageCapacity: '195 cu ft',
+    engineType: 'LEAP-1C',
+    maintenancePlan: 'COMAC Care',
+    interior: 'Economy',
+    passengers: 168,
+    color: 'White w/Red Flag',
+    range: '3,000 nm',
+    maxSpeed: 'Mach 0.82',
+    fuelCapacity: '26,100 liters',
+    length: '127.5 ft',
+    wingspan: '117.5 ft',
+    height: '39.4 ft',
+    cabinLength: '106.0 ft',
+    cabinWidth: '12.3 ft',
+    cabinHeight: '7.5 ft',
+    baggageCapacity: '1,500 cu ft',
   },
 ];
 
@@ -110,6 +111,7 @@ const statusConfig = {
 };
 
 export default function Compare() {
+  const { t } = useTranslation();
   const [comparison, setComparison] = useState<number[]>([1, 2, 3]); // Mock данные для демонстрации
   const [favorites, setFavorites] = useState<number[]>([]);
 
@@ -127,54 +129,54 @@ export default function Compare() {
 
   const comparisonCategories = [
     {
-      name: 'Основная информация',
+      name: t('comparePage.mainCharacteristics'),
       fields: [
-        { key: 'manufacturer', label: 'Производитель' },
-        { key: 'model', label: 'Модель' },
-        { key: 'registration', label: 'Регистрация' },
-        { key: 'year', label: 'Год выпуска' },
-        { key: 'status', label: 'Статус' },
-        { key: 'price', label: 'Цена' },
-        { key: 'location', label: 'Местоположение' },
+        { key: 'manufacturer', label: t('comparePage.manufacturer') },
+        { key: 'model', label: t('comparePage.model') },
+        { key: 'registration', label: t('common.registration') },
+        { key: 'year', label: t('comparePage.year') },
+        { key: 'status', label: t('comparePage.status') },
+        { key: 'price', label: t('comparePage.price') },
+        { key: 'location', label: t('comparePage.location') },
       ]
     },
     {
-      name: 'Летные характеристики',
+      name: t('comparePage.performance'),
       fields: [
-        { key: 'ttaf', label: 'TTAF (часы)' },
-        { key: 'landings', label: 'Посадки' },
-        { key: 'range', label: 'Дальность полета' },
-        { key: 'maxSpeed', label: 'Максимальная скорость' },
-        { key: 'fuelCapacity', label: 'Емкость топливных баков' },
+        { key: 'ttaf', label: t('comparePage.flightHours') },
+        { key: 'landings', label: t('comparePage.cycles') },
+        { key: 'range', label: t('comparePage.maxRange') },
+        { key: 'maxSpeed', label: t('comparePage.maxSpeed') },
+        { key: 'fuelCapacity', label: t('comparePage.fuelCapacity') },
       ]
     },
     {
-      name: 'Размеры',
+      name: t('comparePage.dimensions'),
       fields: [
-        { key: 'length', label: 'Длина' },
-        { key: 'wingspan', label: 'Размах крыла' },
-        { key: 'height', label: 'Высота' },
-        { key: 'mtow', label: 'Максимальная взлетная масса' },
+        { key: 'length', label: t('comparePage.length') },
+        { key: 'wingspan', label: t('comparePage.wingspan') },
+        { key: 'height', label: t('comparePage.height') },
+        { key: 'mtow', label: t('comparePage.mtow') },
       ]
     },
     {
-      name: 'Салон',
+      name: t('comparePage.cabinConfiguration'),
       fields: [
-        { key: 'passengers', label: 'Пассажиры' },
-        { key: 'cabinLength', label: 'Длина салона' },
-        { key: 'cabinWidth', label: 'Ширина салона' },
-        { key: 'cabinHeight', label: 'Высота салона' },
-        { key: 'baggageCapacity', label: 'Объем багажного отделения' },
-        { key: 'interior', label: 'Конфигурация салона' },
-        { key: 'color', label: 'Цвет' },
+        { key: 'passengers', label: t('comparePage.passengers') },
+        { key: 'cabinLength', label: t('comparePage.cabinLength') },
+        { key: 'cabinWidth', label: t('comparePage.cabinWidth') },
+        { key: 'cabinHeight', label: t('comparePage.cabinHeight') },
+        { key: 'baggageCapacity', label: t('common.baggageCapacity') },
+        { key: 'interior', label: t('comparePage.interior') },
+        { key: 'color', label: t('common.color') },
       ]
     },
     {
-      name: 'Двигатели',
+      name: t('comparePage.engines'),
       fields: [
-        { key: 'engines', label: 'Количество двигателей' },
-        { key: 'engineType', label: 'Тип двигателя' },
-        { key: 'maintenancePlan', label: 'План обслуживания' },
+        { key: 'engines', label: t('common.quantity') },
+        { key: 'engineType', label: t('comparePage.engineType') },
+        { key: 'maintenancePlan', label: t('comparePage.maintenancePlan') },
       ]
     },
   ];
@@ -209,17 +211,17 @@ export default function Compare() {
           <div className="text-center py-20">
             <div className="text-gray-400 text-8xl mb-6">✈️</div>
             <h3 className="text-2xl font-bold text-black mb-4">
-              Нет самолетов для сравнения
+              {t('comparePage.emptyState.title')}
             </h3>
             <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
-              Добавьте самолеты в список сравнения
+              {t('comparePage.emptyState.subtitle')}
             </p>
             <Link
               to="/aircraft"
               className="inline-flex items-center px-6 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-colors"
             >
               <ArrowLeftIcon className="h-5 w-5 mr-2" />
-              Вернуться к каталогу
+              {t('comparePage.backToCatalog')}
             </Link>
           </div>
         </div>
@@ -235,10 +237,10 @@ export default function Compare() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-5xl md:text-6xl font-bold text-black mb-6">
-                СРАВНЕНИЕ САМОЛЕТОВ
+                {t('comparePage.title')}
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl">
-                Сравните характеристики выбранных самолетов для принятия оптимального решения
+                {t('comparePage.subtitle')}
               </p>
             </div>
             <Link
@@ -246,7 +248,7 @@ export default function Compare() {
               className="flex items-center px-6 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-colors"
             >
               <ArrowLeftIcon className="h-5 w-5 mr-2" />
-              Вернуться к каталогу
+              {t('comparePage.backToCatalog')}
             </Link>
           </div>
         </div>
@@ -290,19 +292,19 @@ export default function Compare() {
 
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Цена:</span>
+                  <span className="text-gray-500">{t('comparePage.price')}:</span>
                   <span className="font-medium">{aircraft.price}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">TTAF:</span>
+                  <span className="text-gray-500">{t('comparePage.flightHours')}:</span>
                   <span className="font-medium">{aircraft.ttaf.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Пассажиры:</span>
+                  <span className="text-gray-500">{t('comparePage.passengers')}:</span>
                   <span className="font-medium">{aircraft.passengers}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Местоположение:</span>
+                  <span className="text-gray-500">{t('comparePage.location')}:</span>
                   <span className="font-medium">{aircraft.location}</span>
                 </div>
               </div>
@@ -312,7 +314,7 @@ export default function Compare() {
                 className="mt-4 w-full flex items-center justify-center px-4 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-colors"
               >
                 <EyeIcon className="h-4 w-4 mr-2" />
-                Подробнее
+                {t('comparePage.viewDetails')}
               </Link>
             </div>
           ))}
@@ -325,7 +327,7 @@ export default function Compare() {
               <thead className="bg-black text-white">
                 <tr>
                   <th className="px-8 py-4 text-left text-sm font-semibold uppercase tracking-wider">
-                    Характеристика
+                    {t('comparePage.specifications')}
                   </th>
                   {selectedAircraft.map((aircraft) => (
                     <th key={aircraft.id} className="px-8 py-4 text-left text-sm font-semibold uppercase tracking-wider">
@@ -364,14 +366,14 @@ export default function Compare() {
         {/* Панель действий */}
         <div className="mt-8 flex justify-between items-center">
           <div className="text-lg font-medium text-black">
-            Сравнивается {selectedAircraft.length} из 5 самолетов
+            {t('comparePage.comparingAircraft', { count: selectedAircraft.length })}
           </div>
           <div className="flex gap-4">
             <button className="px-6 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-colors">
-              Экспорт в PDF
+              {t('comparePage.exportPDF')}
             </button>
             <button className="px-6 py-3 border-2 border-black text-black font-semibold hover:bg-black hover:text-white transition-colors">
-              Экспорт в Excel
+              {t('comparePage.exportExcel')}
             </button>
           </div>
         </div>

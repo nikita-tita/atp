@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { XMarkIcon, UserIcon, BuildingOfficeIcon, DocumentTextIcon, CalendarIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
@@ -68,6 +69,8 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
   compliance,
   onStatusChange
 }) => {
+  const { t } = useTranslation();
+  
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'approved': return 'bg-green-100 text-green-800';
@@ -79,10 +82,10 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'approved': return 'Одобрено';
-      case 'rejected': return 'Отклонено';
-      case 'in_review': return 'На рассмотрении';
-      default: return 'Ожидает';
+      case 'approved': return t('dashboard.status.approved');
+      case 'rejected': return t('dashboard.status.rejected');
+      case 'in_review': return t('dashboard.status.underReview');
+      default: return t('dashboard.status.pending');
     }
   };
 
@@ -105,7 +108,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
             <h2 className="text-2xl font-semibold text-gray-900">
-              Детали комплаенс-заявки
+              {t('compliance.detailsTitle')}
             </h2>
             <p className="text-sm text-gray-500 mt-1">
               ID: {compliance.id}
@@ -125,23 +128,23 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
           <div className="bg-gray-50 p-6 rounded-lg">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <DocumentTextIcon className="w-5 h-5 mr-2" />
-              Информация о самолете
+              {t('compliance.aircraftInfo')}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-600">Самолет</p>
+                <p className="text-sm text-gray-600">{t('compliance.aircraft')}</p>
                 <p className="font-medium text-gray-900">{compliance.aircraftTitle}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Цена</p>
+                <p className="text-sm text-gray-600">{t('compliance.price')}</p>
                 <p className="font-medium text-gray-900">{compliance.aircraftPrice}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Дата заявки</p>
+                <p className="text-sm text-gray-600">{t('compliance.requestDate')}</p>
                 <p className="font-medium text-gray-900">{formatDate(compliance.createdAt)}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Статус</p>
+                <p className="text-sm text-gray-600">{t('compliance.status')}</p>
                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(compliance.status)}`}>
                   {getStatusText(compliance.status)}
                 </span>
@@ -152,7 +155,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
                 to={`/aircraft/${compliance.aircraftId}`}
                 className="text-black hover:text-gray-700 font-medium text-sm"
               >
-                Просмотреть объявление →
+                {t('compliance.viewListing')}
               </Link>
             </div>
           </div>
@@ -161,23 +164,23 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <UserIcon className="w-5 h-5 mr-2" />
-              Информация о покупателе
+              {t('compliance.buyerInfo')}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600">ФИО</p>
+                  <p className="text-sm text-gray-600">{t('compliance.fullName')}</p>
                   <p className="font-medium text-gray-900">{compliance.buyerName}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Email</p>
+                  <p className="text-sm text-gray-600">{t('compliance.email')}</p>
                   <p className="font-medium text-gray-900 flex items-center">
                     <EnvelopeIcon className="w-4 h-4 mr-2" />
                     {compliance.buyerEmail}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Телефон</p>
+                  <p className="text-sm text-gray-600">{t('compliance.phone')}</p>
                   <p className="font-medium text-gray-900 flex items-center">
                     <PhoneIcon className="w-4 h-4 mr-2" />
                     {compliance.buyerPhone}
@@ -186,14 +189,14 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
               </div>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600">Компания</p>
+                  <p className="text-sm text-gray-600">{t('compliance.company')}</p>
                   <p className="font-medium text-gray-900 flex items-center">
                     <BuildingOfficeIcon className="w-4 h-4 mr-2" />
                     {compliance.buyerCompany}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Должность</p>
+                  <p className="text-sm text-gray-600">{t('compliance.position')}</p>
                   <p className="font-medium text-gray-900">{compliance.buyerPosition}</p>
                 </div>
               </div>
@@ -204,23 +207,23 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <BuildingOfficeIcon className="w-5 h-5 mr-2" />
-              Информация о брокере
+              {t('compliance.brokerInfo')}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600">ФИО брокера</p>
+                  <p className="text-sm text-gray-600">{t('compliance.brokerName')}</p>
                   <p className="font-medium text-gray-900">{compliance.brokerName}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Email</p>
+                  <p className="text-sm text-gray-600">{t('compliance.email')}</p>
                   <p className="font-medium text-gray-900 flex items-center">
                     <EnvelopeIcon className="w-4 h-4 mr-2" />
                     {compliance.brokerEmail}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Телефон</p>
+                  <p className="text-sm text-gray-600">{t('compliance.phone')}</p>
                   <p className="font-medium text-gray-900 flex items-center">
                     <PhoneIcon className="w-4 h-4 mr-2" />
                     {compliance.brokerPhone}
@@ -229,15 +232,15 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
               </div>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600">Компания</p>
+                  <p className="text-sm text-gray-600">{t('compliance.company')}</p>
                   <p className="font-medium text-gray-900">{compliance.brokerCompany}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Лицензия</p>
+                  <p className="text-sm text-gray-600">{t('compliance.license')}</p>
                   <p className="font-medium text-gray-900">{compliance.brokerLicense}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Опыт</p>
+                  <p className="text-sm text-gray-600">{t('compliance.experience')}</p>
                   <p className="font-medium text-gray-900">{compliance.brokerExperience}</p>
                 </div>
               </div>
@@ -246,21 +249,21 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
 
           {/* Financial Information */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Финансовая информация</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('compliance.financialInfo')}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600">Бюджет</p>
+                  <p className="text-sm text-gray-600">{t('compliance.budget')}</p>
                   <p className="font-medium text-gray-900">{compliance.budget}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Временные рамки</p>
+                  <p className="text-sm text-gray-600">{t('compliance.timeline')}</p>
                   <p className="font-medium text-gray-900">{compliance.timeline}</p>
                 </div>
               </div>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600">Финансирование</p>
+                  <p className="text-sm text-gray-600">{t('compliance.financing')}</p>
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <input
@@ -269,7 +272,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
                         readOnly
                         className="mr-2"
                       />
-                      <span className="text-sm">Требуется финансирование</span>
+                      <span className="text-sm">{t('compliance.requiresFinancing')}</span>
                     </div>
                     <div className="flex items-center">
                       <input
@@ -278,7 +281,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
                         readOnly
                         className="mr-2"
                       />
-                      <span className="text-sm">Наличные средства доступны</span>
+                      <span className="text-sm">{t('compliance.cashAvailable')}</span>
                     </div>
                     <div className="flex items-center">
                       <input
@@ -287,7 +290,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
                         readOnly
                         className="mr-2"
                       />
-                      <span className="text-sm">Письмо о намерениях</span>
+                      <span className="text-sm">{t('compliance.letterOfIntent')}</span>
                     </div>
                     <div className="flex items-center">
                       <input
@@ -296,7 +299,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
                         readOnly
                         className="mr-2"
                       />
-                      <span className="text-sm">Подтверждение средств</span>
+                      <span className="text-sm">{t('compliance.proofOfFunds')}</span>
                     </div>
                   </div>
                 </div>
@@ -306,7 +309,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
 
           {/* Additional Requirements */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Дополнительные требования</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('compliance.additionalRequirements')}</h3>
             <div className="space-y-2">
               <div className="flex items-center">
                 <input
@@ -315,7 +318,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
                   readOnly
                   className="mr-2"
                 />
-                <span className="text-sm">Требуется инспекция</span>
+                <span className="text-sm">{t('compliance.requiresInspection')}</span>
               </div>
               <div className="flex items-center">
                 <input
@@ -324,7 +327,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
                   readOnly
                   className="mr-2"
                 />
-                <span className="text-sm">Соглашение о неразглашении</span>
+                <span className="text-sm">{t('compliance.nda')}</span>
               </div>
               <div className="flex items-center">
                 <input
@@ -333,7 +336,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
                   readOnly
                   className="mr-2"
                 />
-                <span className="text-sm">Приняты условия платформы</span>
+                <span className="text-sm">{t('compliance.platformTerms')}</span>
               </div>
             </div>
           </div>
@@ -341,7 +344,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
           {/* Documents */}
           {compliance.documents.length > 0 && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Загруженные документы</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('compliance.uploadedDocuments')}</h3>
               <div className="space-y-2">
                 {compliance.documents.map((doc, index) => (
                   <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -364,7 +367,7 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
           {/* Comments */}
           {compliance.comments.length > 0 && (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Комментарии</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('compliance.comments')}</h3>
               <div className="space-y-4">
                 {compliance.comments.map((comment) => (
                   <div key={comment.id} className="border border-gray-200 rounded-lg p-4">
@@ -386,13 +389,13 @@ const ComplianceDetailModal: React.FC<ComplianceDetailModalProps> = ({
                 onClick={() => onStatusChange(compliance.id, 'rejected')}
                 className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
               >
-                Отклонить
+                {t('compliance.reject')}
               </button>
               <button
                 onClick={() => onStatusChange(compliance.id, 'approved')}
                 className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
               >
-                Одобрить
+                {t('compliance.approve')}
               </button>
             </div>
           )}
