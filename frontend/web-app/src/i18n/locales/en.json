@@ -1,0 +1,960 @@
+{
+  "navigation": {
+    "home": "Home",
+    "aircraft": "Aircraft",
+    "sales": "Sales",
+    "leasing": "Leasing",
+    "acmi": "ACMI",
+    "compare": "Compare",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "logout": "Logout"
+  },
+  "home": {
+    "hero": {
+      "title": "Global Aircraft Trading Platform",
+      "subtitle": "Access to verified aircraft listings from trusted market participants",
+      "searchPlaceholder": "Search aircraft...",
+      "findAircraft": "Find Aircraft"
+    },
+    "search": {
+      "manufacturer": "Manufacturer",
+      "selectManufacturer": "All manufacturers",
+      "model": "Model",
+      "selectModel": "Any model",
+      "category": "Category",
+      "selectCategory": "Select category",
+      "yearFrom": "Year from",
+      "yearTo": "Year to",
+      "price": "Price",
+      "selectPrice": "Any price",
+      "search": "Search",
+      "priceRanges": {
+        "under10": "Up to $10M",
+        "10to25": "$10M - $25M", 
+        "25to50": "$25M - $50M",
+        "over50": "Over $50M"
+      }
+    },
+    "categories": {
+      "sales": {
+        "title": "Aircraft Sales",
+        "description": "Buy and sell commercial aircraft with verified documentation and compliance checks"
+      },
+      "leasing": {
+        "title": "Aircraft Leasing",
+        "description": "Dry lease and wet lease options for airlines and operators worldwide"
+      },
+      "acmi": {
+        "title": "ACMI Services",
+        "description": "Aircraft, Crew, Maintenance & Insurance packages for immediate operations"
+      }
+    },
+    "featured": {
+      "title": "Featured Aircraft",
+      "viewDetails": "View Details"
+    },
+    "stats": {
+      "verifiedAircraft": "Verified Aircraft",
+      "trustedBrokers": "Trusted Brokers",
+      "secureTrans": "Secure Transactions"
+    },
+    "whyAtp": {
+      "title": "WHY ATP?",
+      "subtitle": "We created a closed ecosystem for professional aviation market participants",
+      "verification": {
+        "title": "Verification",
+        "description": "All participants undergo strict verification of documents and financial status"
+      },
+      "globalNetwork": {
+        "title": "Global Network", 
+        "description": "Access to aircraft worldwide from verified owners and brokers"
+      },
+      "timeSaving": {
+        "title": "Time Saving",
+        "description": "Direct communication with owners without intermediaries and unnecessary negotiations"
+      },
+      "premiumService": {
+        "title": "Premium Service",
+        "description": "Personal manager and full support at all stages of the transaction"
+      }
+    },
+    "premiumAircraft": {
+      "title": "PREMIUM AIRCRAFT",
+      "subtitle": "Explore our collection of verified aircraft for sale"
+    },
+    "readyToStart": {
+      "title": "READY TO START?",
+      "subtitle": "Join the exclusive community of professional aviation market participants",
+      "register": "Register",
+      "contact": "Contact Us"
+    },
+    "viewAllAircraft": "View All Aircraft"
+  },
+  "aircraft": {
+    "title": "Aircraft Catalog",
+    "filters": {
+      "manufacturer": "Manufacturer",
+      "model": "Model", 
+      "year": "Year",
+      "yearRange": "Year Range",
+      "priceRange": "Price Range",
+      "hoursRange": "Flight Hours",
+      "cyclesRange": "Cycles",
+      "location": "Location",
+      "status": "Status",
+      "category": "Category",
+      "clearFilters": "Clear Filters",
+      "applyFilters": "Apply Filters"
+    },
+    "sort": {
+      "label": "Sort by",
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "priceLow": "Price: Low to High",
+      "priceHigh": "Price: High to Low",
+      "hoursLow": "Hours: Low to High",
+      "hoursHigh": "Hours: High to Low"
+    },
+    "card": {
+      "year": "Year",
+      "hours": "Hours",
+      "cycles": "Cycles",
+      "seats": "Seats",
+      "location": "Location",
+      "viewDetails": "View Details",
+      "addToCompare": "Add to Compare",
+      "removeFromCompare": "Remove from Compare",
+      "contactSeller": "Contact Seller"
+    },
+    "noResults": "No aircraft found matching your criteria",
+    "loading": "Loading aircraft...",
+    "searchPlaceholder": "Search by manufacturer, model, registration...",
+    "maxCompareLimit": "Maximum 5 aircraft for comparison",
+    "allStatuses": "All statuses",
+    "fromPlaceholder": "From",
+    "toPlaceholder": "To",
+    "actions": {
+      "viewDetails": "View Details"
+    },
+    "detail": {
+      "tabs": {
+        "overview": "Overview",
+        "specifications": "Specifications", 
+        "maintenance": "Maintenance",
+        "documents": "Documents"
+      },
+      "status": {
+        "availableForPurchase": "Available for purchase"
+      },
+      "actions": {
+        "contactSeller": "Contact Seller",
+        "passCompliance": "Pass Compliance Check",
+        "reserveClient": "Reserve Client"
+      },
+      "notifications": {
+        "complianceCompleted": "Compliance check completed! You can now contact the seller.",
+        "clientReserved": "Client reserved! You will receive exclusive rights to work with this buyer."
+      }
+    }
+  },
+  "leasing": {
+    "tabs": {
+      "dry": "Dry Lease",
+      "wet": "Wet Lease"
+    },
+    "info": {
+      "dryTitle": "Dry Lease:",
+      "dryText": "Aircraft leasing without crew, maintenance, or insurance. The lessee provides their own crew and is responsible for operations.",
+      "wetTitle": "Wet Lease:",
+      "wetText": "Aircraft leasing with crew included. Maintenance and insurance may also be included depending on the agreement."
+    },
+    "card": {
+      "availableFrom": "Available {{date}}",
+      "leaseTerm": "Lease Term",
+      "leaseTermRange": "{{min}}-{{max}} months",
+      "crewIncluded": "Crew Included",
+      "maintenanceIncluded": "Maintenance Included",
+      "insuranceIncluded": "Insurance Included"
+    },
+    "actions": {
+      "requestQuote": "Request Quote"
+    }
+  },
+  "sales": {
+    "tabs": {
+      "listings": "Aircraft Listings",
+      "requests": "Buyer Requests"
+    },
+    "requests": {
+      "active": "Active Request",
+      "yearRange": "Year Range",
+      "maxPrice": "Max Price",
+      "maxHours": "Max Hours",
+      "delivery": "Delivery",
+      "specialRequirements": "Special Requirements",
+      "submitProposal": "Submit Proposal"
+    }
+  },
+  "acmi": {
+    "cards": {
+      "aircraft": "Aircraft",
+      "aircraftDesc": "Modern fleet ready for operation",
+      "crew": "Crew",
+      "crewDesc": "Experienced flight & cabin crew",
+      "maintenance": "Maintenance",
+      "maintenanceDesc": "Full maintenance support",
+      "insurance": "Insurance",
+      "insuranceDesc": "Comprehensive coverage"
+    },
+    "card": {
+      "operationalRegions": "Operational Regions",
+      "crewNationalities": "Crew Nationalities",
+      "certifications": "Certifications",
+      "packageIncludes": "ACMI Package Includes:",
+      "flightCrew": "Flight Crew",
+      "cabinCrew": "Cabin Crew",
+      "training": "Training"
+    },
+    "actions": {
+      "requestQuote": "Request ACMI Quote"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login to ATP Platform",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot Password?",
+      "loginButton": "Login",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register here",
+      "placeholders": {
+        "password": "Enter password"
+      },
+      "validation": {
+        "fillAllFields": "Please fill in all fields",
+        "invalidYear": "Invalid year of manufacture",
+        "invalidHours": "Invalid hours or cycles data"
+      },
+      "notifications": {
+        "success": "Successfully logged in",
+        "error": "Login error",
+        "logging": "Logging in..."
+      }
+    },
+    "register": {
+      "title": "Register for ATP Platform",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "company": "Company",
+      "phone": "Phone",
+      "country": "Country",
+      "businessType": "Business Type",
+      "broker": "Broker",
+      "airline": "Airline",
+      "leasingCompany": "Leasing Company",
+      "individual": "Individual",
+      "other": "Other",
+      "agreeTerms": "I agree to the Terms of Service and Privacy Policy",
+      "registerButton": "Register",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Login here",
+      "placeholders": {
+        "firstName": "John",
+        "lastName": "Smith", 
+        "company": "Aviation Trading LLC",
+        "password": "Minimum 8 characters",
+        "confirmPassword": "Repeat password"
+      },
+      "validation": {
+        "fillRequired": "Please fill in all required fields",
+        "passwordMismatch": "Passwords do not match",
+        "passwordLength": "Password must contain at least 8 characters",
+        "agreeTerms": "You must agree to the terms of use"
+      },
+      "notifications": {
+        "success": "Registration successful! Welcome to ATP Platform",
+        "error": "Registration error",
+        "creating": "Creating account...",
+        "createAccount": "Create Account"
+      },
+      "enhanced": {
+        "title": "Join ATP Platform",
+        "subtitle": "Create your professional aviation account",
+        "steps": {
+          "personal": "Personal Information",
+          "security": "Account Security",
+          "company": "Company Details",
+          "review": "Review & Complete"
+        },
+        "businessTypes": {
+          "broker": "Aircraft Broker",
+          "brokerDesc": "Buy/sell aircraft on behalf of clients",
+          "airline": "Airline",
+          "airlineDesc": "Commercial airline operations",
+          "leasingCompany": "Leasing Company",
+          "leasingDesc": "Aircraft leasing and financing",
+          "individual": "Private Individual",
+          "individualDesc": "Private aircraft owner or buyer",
+          "financialInstitution": "Financial Institution",
+          "financialDesc": "Banks, funds, and financial services",
+          "manufacturer": "Aircraft Manufacturer",
+          "manufacturerDesc": "OEM or aircraft manufacturing",
+          "mro": "MRO Provider",
+          "mroDesc": "Maintenance, repair, and overhaul services",
+          "other": "Other",
+          "otherDesc": "Other aviation-related business"
+        },
+        "success": {
+          "title": "Registration Successful!",
+          "subtitle": "We've sent a verification email to your address",
+          "nextSteps": "Next Steps:",
+          "emailVerification": "Email verification will be sent to your email address",
+          "smsVerification": "SMS verification will be required for your phone number",
+          "browsing": "You can start browsing aircraft immediately",
+          "docVerification": "Document verification will be required for full access"
+        },
+        "notifications": {
+          "success": "Registration successful! Welcome to ATP Platform",
+          "error": "Registration error",
+          "creating": "Creating account..."
+        }
+      }
+    }
+  },
+  "dashboard": {
+    "title": "My Dashboard",
+    "welcome": "Welcome back",
+    "tabs": {
+      "overview": "Overview",
+      "listings": "My Listings",
+      "compliance": "Compliance",
+      "messages": "Messages",
+      "verification": "Verification",
+      "billing": "Billing",
+      "settings": "Settings",
+      "profile": "Profile"
+    },
+    "overview": {
+      "stats": {
+        "activeListings": "Active Listings",
+        "totalViews": "Total Views",
+        "unreadMessages": "Unread Messages",
+        "pendingCompliance": "Pending Compliance"
+      },
+      "recentActivity": "Recent Activity",
+      "quickActions": "Quick Actions",
+      "addListing": "Add New Listing",
+      "viewMessages": "View Messages",
+      "updateProfile": "Update Profile"
+    },
+    "listings": {
+      "title": "My Aircraft Listings",
+      "addNew": "Add New Listing",
+      "table": {
+        "aircraft": "Aircraft",
+        "price": "Price",
+        "status": "Status",
+        "views": "Views",
+        "created": "Created",
+        "actions": "Actions"
+      },
+      "status": {
+        "active": "Active",
+        "pending": "Pending Review",
+        "draft": "Draft",
+        "expired": "Expired"
+      },
+      "actions": {
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete",
+        "promote": "Promote"
+      }
+    },
+    "compliance": {
+      "title": "Compliance Requests",
+      "incoming": "Incoming Requests",
+      "outgoing": "Outgoing Requests",
+      "approve": "Approve",
+      "reject": "Reject",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "profile": {
+      "title": "Profile Settings",
+      "personalInfo": "Personal Information",
+      "companyInfo": "Company Information",
+      "verification": "Verification Status",
+      "save": "Save Changes"
+    },
+    "activity": {
+      "updated": "Listing updated with new information",
+      "newMessage": "New message from buyer",
+      "messageReceived": "Received message for listing",
+      "verificationComplete": "Your account has been successfully verified",
+      "complianceSubmitted": "Compliance request submitted for",
+      "view": "View",
+      "reply": "Reply", 
+      "track": "Track"
+    },
+    "deals": {
+      "aircraft": "Aircraft",
+      "buyer": "Buyer", 
+      "status": "Status",
+      "date": "Date",
+      "price": "Price"
+    },
+    "status": {
+      "active": "Active",
+      "pending": "Pending Review",
+      "inactive": "Inactive", 
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "verified": "Verified",
+      "underReview": "Under Review",
+      "buyer": "Buyer",
+      "seller": "Seller"
+    },
+    "subscription": {
+      "basic": "Basic Plan",
+      "professional": "Professional Plan", 
+      "corporate": "Corporate Plan"
+    },
+    "notifications": {
+      "profileUpdated": "Profile successfully updated",
+      "listingDeleted": "Listing deleted",
+      "listingAdded": "Listing added!",
+      "listingUpdated": "Listing updated!",
+      "deleteConfirm": "Are you sure you want to delete this listing?",
+      "requestApproved": "Request approved",
+      "requestRejected": "Request rejected"
+    }
+  },
+  "compare": {
+    "title": "Aircraft Comparison",
+    "empty": "No aircraft selected for comparison",
+    "addAircraft": "Add aircraft from the catalog to compare",
+    "backToCatalog": "Back to Catalog",
+    "specifications": "Specifications",
+    "manufacturer": "Manufacturer",
+    "model": "Model",
+    "year": "Year",
+    "price": "Price",
+    "hours": "Flight Hours",
+    "cycles": "Cycles",
+    "seats": "Seats",
+    "location": "Location",
+    "remove": "Remove",
+    "contactSeller": "Contact Seller"
+  },
+  "footer": {
+    "platform": {
+      "title": "Platform",
+      "home": "Home",
+      "aircraft": "Aircraft",
+      "compare": "Compare",
+      "contact": "Contact"
+    },
+    "services": {
+      "title": "Services",
+      "register": "Register",
+      "dashboard": "Dashboard",
+      "listings": "My Listings"
+    },
+    "legal": {
+      "title": "Legal",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "refund": "Refund Policy"
+    },
+    "contact": {
+      "title": "Contact",
+      "email": "info@atp-platform.com",
+      "phone": "+1 (555) 123-4567"
+    },
+    "social": {
+      "title": "Follow Us"
+    },
+    "copyright": "© 2025 ATP Platform. All rights reserved."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "clear": "Clear",
+    "select": "Select",
+    "all": "All",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "back": "Back",
+    "continue": "Continue",
+    "finish": "Finish",
+    "openMenu": "Open main menu",
+    "closeMenu": "Close menu"
+  },
+  "aircraft_types": {
+    "boeing_737": "Boeing 737",
+    "boeing_747": "Boeing 747", 
+    "boeing_777": "Boeing 777",
+    "boeing_787": "Boeing 787",
+    "airbus_a320": "Airbus A320",
+    "airbus_a330": "Airbus A330",
+    "airbus_a340": "Airbus A340",
+    "airbus_a350": "Airbus A350",
+    "airbus_a380": "Airbus A380",
+    "embraer_e170": "Embraer E170",
+    "embraer_e175": "Embraer E175",
+    "embraer_e190": "Embraer E190",
+    "bombardier_crj": "Bombardier CRJ"
+  },
+  "categories": {
+    "commercial": "Commercial Aircraft",
+    "regional": "Regional Aircraft", 
+    "cargo": "Cargo Aircraft",
+    "vip": "VIP/Business",
+    "freighter": "Freighter"
+  },
+  "status": {
+    "new": "New",
+    "used": "Used",
+    "available": "Available",
+    "reserved": "Reserved",
+    "sold": "Sold"
+  },
+  "form": {
+    "manufacturer": "Manufacturer",
+    "selectManufacturer": "Select Manufacturer",
+    "model": "Model",
+    "modelPlaceholder": "e.g. G650",
+    "series": "Series",
+    "seriesPlaceholder": "e.g. 6062",
+    "registration": "Registration Number",
+    "registrationPlaceholder": "e.g. N123AB",
+    "year": "Year of Manufacture",
+    "price": "Price",
+    "pricePlaceholder": "e.g. 45000000",
+    "location": "Location",
+    "locationPlaceholder": "e.g. Moscow, Russia",
+    "color": "Color",
+    "colorPlaceholder": "e.g. White with gold stripes",
+    "description": "Description",
+    "descriptionPlaceholder": "Detailed aircraft description, condition, features...",
+    "basicInfo": "Basic Information",
+    "technicalSpecs": "Technical Specifications",
+    "mediaDocuments": "Media and Documents"
+  },
+  "time": {
+    "hoursAgo": "hours ago",
+    "minutesAgo": "minutes ago",
+    "dayAgo": "day ago",
+    "daysAgo": "days ago",
+    "now": "now"
+  },
+  "listing": {
+    "views": "views",
+    "requests": "requests",
+    "complianceRequests": "compliance requests",
+    "reservations": "reservations",
+    "addListing": "Add Listing",
+    "myListings": "My Listings",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "listing": "Listing"
+  },
+  "verification": {
+    "completed": "Verification Completed",
+    "message": "Your account has successfully passed verification. You can now use all platform features.",
+    "status": "Status: Verified ✓",
+    "date": "Verification Date"
+  },
+  "compliance": {
+    "title": "Compliance Requests",
+    "activeRequests": "Active Requests",
+    "viewDetails": "View Details",
+    "approve": "Approve",
+    "reject": "Reject",
+    "track": "Track",
+    "details": "Compliance Request Details",
+    "aircraftInfo": "Aircraft Information",
+    "aircraft": "Aircraft",
+    "requestDate": "Request Date",
+    "viewListing": "View Listing →",
+    "buyerInfo": "Buyer Information",
+    "buyerName": "Buyer Name",
+    "company": "Company",
+    "position": "Position",
+    "brokerInfo": "Broker Information",
+    "brokerName": "Broker Name",
+    "license": "License",
+    "experience": "Experience",
+    "financialInfo": "Financial Information",
+    "budget": "Budget",
+    "timeline": "Timeline",
+    "financing": "Financing",
+    "requiresFinancing": "Requires financing",
+    "cashAvailable": "Cash available",
+    "letterOfIntent": "Letter of Intent",
+    "proofOfFunds": "Proof of Funds",
+    "additionalRequirements": "Additional Requirements",
+    "requiresInspection": "Requires inspection",
+    "nda": "Non-Disclosure Agreement",
+    "platformTerms": "Platform terms accepted",
+    "uploadedDocuments": "Uploaded Documents",
+    "comments": "Comments",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "price": "Price",
+    "status": "Status",
+    "detailsTitle": "Compliance Request Details"
+  },
+  "messages": {
+    "recent": "Recent Messages",
+    "openChat": "Open Chat",
+    "lastMessage": "Last message",
+    "title": "Messages",
+    "chats": "Chats",
+    "you": "You",
+    "messageSent": "Message sent",
+    "yesterday": "Yesterday",
+    "aircraftPrice": "Aircraft price",
+    "enterMessage": "Enter message...",
+    "selectChat": "Select a chat to start messaging",
+    "mockMessage1": "Hello! I'm interested in your Boeing 737-800. Can you provide additional information about the technical condition?",
+    "mockMessage2": "Good day! Of course, the aircraft is in excellent condition. TTAF 25,000 hours, last inspection 2 months ago. Full documentation available.",
+    "mockMessage3": "Thank you! When can we arrange an inspection?",
+    "mockMessage4": "Interested in Airbus A320neo. What year was it manufactured?",
+    "mockMessage5": "2018 model, TTAF 12,000 hours. The aircraft is practically new."
+  },
+  "billing": {
+    "updatePlan": "Update Plan",
+    "expires": "Expires",
+    "paymentHistoryEmpty": "Payment history is empty"
+  },
+  "profile": {
+    "editProfile": "Edit Profile",
+    "location": "Location"
+  },
+    "activity": {
+      "lastActivity": "Last Activity"
+    },
+    "notifications": {
+      "profileUpdated": "Profile successfully updated",
+      "listingDeleted": "Listing deleted",
+      "listingAdded": "Listing added!",
+      "listingUpdated": "Listing updated!",
+      "complianceStatusChanged": "Request approved/rejected"
+    },
+  "profile": {
+    "settings": "Profile Settings",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "company": "Company",
+    "position": "Position",
+    "about": "About Yourself",
+    "save": "Save Changes",
+    "accountVerified": "Your account has been successfully verified. You can now use all platform features.",
+    "status": "Status",
+    "verified": "Verified",
+    "verificationDate": "Verification Date",
+    "currentPlan": "Current Plan",
+    "paymentHistory": "Payment History",
+    "verificationTitle": "Verification",
+    "verificationComplete": "Verification Complete",
+    "registration": "Registration",
+    "baggageCapacity": "Baggage Capacity",
+    "color": "Color",
+    "quantity": "Quantity"
+  },
+  "about": {
+    "title": "About ATP PLATFORM",
+    "subtitle": "Leading verified trading platform for aviation equipment, connecting professional market participants",
+    "mission": {
+      "title": "Our Mission",
+      "description1": "Create a safe and efficient ecosystem for aviation equipment trading, where every participant undergoes strict verification and can be confident in the reliability of partners.",
+      "description2": "We strive to simplify the process of buying and selling aircraft by providing access to quality information and direct contacts with verified owners and brokers.",
+      "joinPlatform": "Join Platform"
+    },
+    "values": {
+      "title": "Our Values",
+      "subtitle": "Principles that underpin our work",
+      "security": {
+        "title": "Security",
+        "description": "Strict verification of all participants and protection of confidential information"
+      },
+      "global": {
+        "title": "Global Reach",
+        "description": "Access to aircraft worldwide and international partner network"
+      },
+      "verification": {
+        "title": "Verification",
+        "description": "Every seller undergoes strict identity verification and confirms ownership of aircraft"
+      },
+      "transparency": {
+        "title": "Transparency",
+        "description": "All deals are conducted under clear terms and with full documentation"
+      },
+      "efficiency": {
+        "title": "Efficiency",
+        "description": "We minimize time spent on searching and verifying counterparties"
+      },
+      "quality": {
+        "title": "Quality",
+        "description": "Only verified aircraft with complete documentation and history"
+      },
+      "community": {
+        "title": "Community",
+        "description": "Professional community of aviation market participants"
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "Modern technologies for convenient and safe deals"
+      }
+    },
+    "team": {
+      "title": "Our Team",
+      "description": "A team of professionals with many years of experience in aviation and technology, united by the goal of creating the best platform for aircraft trading.",
+      "ceo": {
+        "name": "Alexander Petrov",
+        "position": "CEO and Founder",
+        "experience": "20+ years in aviation"
+      },
+      "coo": {
+        "name": "Maria Ivanova",
+        "position": "Operating Director",
+        "experience": "15+ years in operations"
+      },
+      "cto": {
+        "name": "Sergey Smirnov",
+        "position": "Technical Director",
+        "experience": "10+ years in IT"
+      }
+    },
+    "stats": {
+      "title": "ATP Platform in Numbers",
+      "aircraft": "500+",
+      "aircraftLabel": "Verified Aircraft",
+      "brokers": "1000+",
+      "brokersLabel": "Professional Brokers",
+      "deals": "250+",
+      "dealsLabel": "Successful Deals",
+      "countries": "50+",
+      "countriesLabel": "Countries",
+      "secureDeals": "Secure Transactions"
+    },
+    "cta": {
+      "title": "Join the Professional Community",
+      "subtitle": "Start working with verified market participants today",
+      "register": "Register",
+      "contact": "Contact Us"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're ready to answer your questions and help you start working with ATP Platform",
+    "info": {
+      "title": "Contact Information",
+      "address": {
+        "title": "Office Address",
+        "line1": "123 Aviation Plaza",
+        "line2": "Miami, FL 33166, USA"
+      },
+      "phone": {
+        "title": "Phone",
+        "sales": "Sales department",
+        "support": "Technical support"
+      },
+      "email": {
+        "title": "Email",
+        "general": "General inquiries",
+        "support": "Technical support"
+      },
+      "hours": {
+        "title": "Business Hours",
+        "weekdays": "Monday - Friday: 9:00 - 18:00 EST",
+        "weekends": "Saturday - Sunday: Closed"
+      }
+    },
+    "form": {
+      "title": "Send Message",
+      "subtitle": "Fill out the form below and we'll get back to you within 24 hours",
+      "name": "Your Name",
+      "namePlaceholder": "John Doe",
+      "email": "Email",
+      "emailPlaceholder": "john@example.com",
+      "phone": "Phone",
+      "phonePlaceholder": "+1 (555) 123-4567",
+      "company": "Company",
+      "companyPlaceholder": "Your Company Name",
+      "subject": "Subject",
+      "subjectPlaceholder": "Select subject",
+      "subjectOptions": {
+        "general": "General Inquiry",
+        "sales": "Aircraft Purchase/Sale",
+        "support": "Technical Support",
+        "partnership": "Partnership",
+        "other": "Other"
+      },
+      "message": "Message",
+      "messagePlaceholder": "Describe your inquiry...",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "required": "Required fields",
+      "success": "Message sent! We'll contact you soon.",
+      "error": "Please fill in all required fields"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "items": [
+        {
+          "question": "How does platform verification work?",
+          "answer": "All participants undergo mandatory identity verification and document checks. Sellers additionally confirm aircraft ownership rights."
+        },
+        {
+          "question": "What are the fees for using the platform?",
+          "answer": "Registration and aircraft browsing are free. Commission is charged only for successful transactions."
+        },
+        {
+          "question": "How do I start selling my aircraft?",
+          "answer": "Register on the platform, pass verification, and add your aircraft listing with all necessary documentation."
+        },
+        {
+          "question": "Do you provide transaction support?",
+          "answer": "Yes, we provide full legal and technical support at all stages of the transaction."
+        }
+      ]
+    }
+  },
+  "comparePage": {
+    "title": "Aircraft Comparison",
+    "subtitle": "Compare characteristics of selected aircraft to make the optimal decision",
+    "backToCatalog": "Back to Catalog",
+    "emptyState": {
+      "title": "No aircraft selected for comparison",
+      "subtitle": "Add aircraft from the catalog to start comparing",
+      "goToCatalog": "Go to Catalog"
+    },
+    "removeFromComparison": "Remove from comparison",
+    "specifications": "Specifications",
+    "mainCharacteristics": "Main Characteristics",
+    "manufacturer": "Manufacturer",
+    "model": "Model",
+    "year": "Year",
+    "price": "Price",
+    "location": "Location",
+    "technicalCharacteristics": "Technical Characteristics",
+    "flightHours": "Flight Hours",
+    "cycles": "Cycles",
+    "mtow": "MTOW",
+    "engines": "Engines",
+    "engineType": "Engine Type",
+    "cabinConfiguration": "Cabin Configuration",
+    "passengers": "Passenger Capacity",
+    "cabinLength": "Cabin Length",
+    "cabinWidth": "Cabin Width",
+    "cabinHeight": "Cabin Height",
+    "performance": "Performance",
+    "maxRange": "Max Range",
+    "maxSpeed": "Max Speed",
+    "fuelCapacity": "Fuel Capacity",
+    "dimensions": "Dimensions",
+    "length": "Length",
+    "wingspan": "Wingspan",
+    "height": "Height",
+    "maintenance": "Maintenance",
+    "maintenancePlan": "Maintenance Plan",
+    "interior": "Interior",
+    "status": "Status",
+    "actions": "Actions",
+    "viewDetails": "View Details",
+    "contactSeller": "Contact Seller",
+    "addToFavorites": "Add to Favorites",
+    "comparingAircraft": "Comparing {{count}} of 5 aircraft",
+    "exportPDF": "Export to PDF",
+    "exportExcel": "Export to Excel"
+  },
+  "market": {
+    "filters": {
+      "filters": "Filters",
+      "search": "Search",
+      "searchAircraft": "Search Aircraft",
+      "searchACMI": "Search ACMI Services",
+      "manufacturer": "Manufacturer",
+      "yearFrom": "Year From",
+      "yearTo": "Year To",
+      "priceMin": "Price Min (USD)",
+      "priceMax": "Price Max (USD)",
+      "monthlyMin": "Monthly Min (USD)",
+      "monthlyMax": "Monthly Max (USD)",
+      "location": "Location",
+      "base": "Base"
+    }
+  },
+  
+  "complianceModal": {
+    "title": "Compliance Check",
+    "important": "Important!",
+    "aircraftLabel": "Aircraft:",
+    "priceLabel": "Price:",
+    "confirmTitle": "Application Confirmation",
+    "confirmSubtitle": "Please review the information before submitting",
+    "summaryTitle": "Application Summary:",
+    "finalInfo": "After submitting the application, our team will contact you within 24 hours to verify details. After successful verification you will get access to the seller's contact information.",
+    "steps": {
+      "info": "Information",
+      "documents": "Documents",
+      "confirmation": "Confirmation"
+    },
+    "submit": "Submit Application",
+    "next": "Next",
+    "back": "Back",
+    "cancel": "Cancel",
+    "notifications": {
+      "submitted": "Compliance request submitted! We will contact you within 24 hours."
+    }
+  },
+  "reserveModal": {
+    "title": "Reserve Client",
+    "aircraftLabel": "Aircraft:",
+    "priceLabel": "Price:",
+    "sellerLabel": "Seller:",
+    "steps": {
+      "info": "Information",
+      "terms": "Terms",
+      "confirmation": "Confirmation"
+    },
+    "submit": "Reserve Client",
+    "next": "Next",
+    "back": "Back",
+    "cancel": "Cancel",
+    "notifications": {
+      "success": "Client successfully reserved. You now have exclusive rights."
+    }
+  }
+}

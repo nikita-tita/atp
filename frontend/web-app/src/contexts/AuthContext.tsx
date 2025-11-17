@@ -6,12 +6,27 @@ interface User {
   email: string;
   firstName: string;
   lastName: string;
-  role: 'buyer' | 'seller' | 'admin';
+  role: 'buyer' | 'seller' | 'admin' | 'broker' | 'moderator';
   verificationStatus: 'pending' | 'verified' | 'rejected';
   subscription: {
     plan: 'basic' | 'professional' | 'corporate';
     expiresAt: string;
   };
+  // Enhanced verification fields
+  isEmailVerified: boolean;
+  isPhoneVerified: boolean;
+  isKYCVerified: boolean;
+  hasMandateAccess: boolean;
+  verificationLevel: 'guest' | 'registered' | 'verified' | 'mandated';
+  // Enhanced profile fields
+  phone?: string;
+  company?: string;
+  position?: string;
+  country?: string;
+  businessType?: 'broker' | 'airline' | 'leasingCompany' | 'individual' | 'financialInstitution' | 'manufacturer' | 'mro' | 'other';
+  companyWebsite?: string;
+  linkedinProfile?: string;
+  yearsInBusiness?: string;
 }
 
 interface AuthState {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { XMarkIcon, UserIcon, CalendarIcon, ShieldCheckIcon, ClockIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
@@ -22,6 +23,7 @@ const ReserveClientModal: React.FC<ReserveClientModalProps> = ({
   onSuccess,
   aircraft
 }) => {
+  const { t } = useTranslation();
   const [step, setStep] = useState<'info' | 'terms' | 'confirmation'>('info');
   const [formData, setFormData] = useState({
     // Информация о клиенте
@@ -128,7 +130,7 @@ const ReserveClientModal: React.FC<ReserveClientModalProps> = ({
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center">
             <UserIcon className="w-6 h-6 text-aviation-600 mr-3" />
-            <h2 className="text-xl font-semibold text-gray-900">Забронировать клиента</h2>
+            <h2 className="text-xl font-semibold text-gray-900">{t('reserveModal.title')}</h2>
           </div>
           <button
             onClick={onClose}
@@ -147,7 +149,7 @@ const ReserveClientModal: React.FC<ReserveClientModalProps> = ({
               }`}>
                 1
               </div>
-              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">Информация</span>
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">{t('reserveModal.steps.info')}</span>
             </div>
             <div className={`flex items-center ${step === 'terms' ? 'text-aviation-600' : 'text-gray-400'}`}>
               <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
@@ -155,7 +157,7 @@ const ReserveClientModal: React.FC<ReserveClientModalProps> = ({
               }`}>
                 2
               </div>
-              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">Условия</span>
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">{t('reserveModal.steps.terms')}</span>
             </div>
             <div className={`flex items-center ${step === 'confirmation' ? 'text-aviation-600' : 'text-gray-400'}`}>
               <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
@@ -163,7 +165,7 @@ const ReserveClientModal: React.FC<ReserveClientModalProps> = ({
               }`}>
                 3
               </div>
-              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">Подтверждение</span>
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium hidden sm:inline">{t('reserveModal.steps.confirmation')}</span>
             </div>
           </div>
         </div>
@@ -173,9 +175,9 @@ const ReserveClientModal: React.FC<ReserveClientModalProps> = ({
           {step === 'info' && (
             <div>
               <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h3 className="font-medium text-blue-900 mb-2">Самолет: {aircraft.title}</h3>
-                <p className="text-blue-800 text-sm">Цена: {formatPrice(aircraft.price, aircraft.currency)}</p>
-                <p className="text-blue-800 text-sm">Продавец: {aircraft.seller.name}</p>
+                <h3 className="font-medium text-blue-900 mb-2">{t('reserveModal.aircraftLabel')} {aircraft.title}</h3>
+                <p className="text-blue-800 text-sm">{t('reserveModal.priceLabel')} {formatPrice(aircraft.price, aircraft.currency)}</p>
+                <p className="text-blue-800 text-sm">{t('reserveModal.sellerLabel')} {aircraft.seller.name}</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -490,7 +492,7 @@ const ReserveClientModal: React.FC<ReserveClientModalProps> = ({
             onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
           >
-            Отмена
+            {t('reserveModal.cancel')}
           </button>
           <div className="flex space-x-3">
             {step !== 'info' && (
@@ -498,7 +500,7 @@ const ReserveClientModal: React.FC<ReserveClientModalProps> = ({
                 onClick={handleBack}
                 className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
               >
-                Назад
+                {t('reserveModal.back')}
               </button>
             )}
             {step !== 'confirmation' ? (
@@ -506,14 +508,14 @@ const ReserveClientModal: React.FC<ReserveClientModalProps> = ({
                 onClick={handleNext}
                 className="px-4 py-2 bg-aviation-600 text-white text-sm font-medium rounded-md hover:bg-aviation-700"
               >
-                Далее
+                {t('reserveModal.next')}
               </button>
             ) : (
               <button
                 onClick={handleSubmit}
                 className="px-4 py-2 bg-aviation-600 text-white text-sm font-medium rounded-md hover:bg-aviation-700"
               >
-                Забронировать клиента
+                {t('reserveModal.submit')}
               </button>
             )}
           </div>

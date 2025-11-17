@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { XMarkIcon, PhotoIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
@@ -40,6 +41,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
   aircraft,
   mode
 }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<AircraftFormData>({
     manufacturer: '',
     model: '',
@@ -84,22 +86,22 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
     
     // Валидация
     if (!formData.manufacturer || !formData.model || !formData.registration || !formData.price) {
-      toast.error('Пожалуйста, заполните все обязательные поля');
+      toast.error(t('auth.register.validation.fillAllFields'));
       return;
     }
 
     if (formData.year < 1950 || formData.year > new Date().getFullYear()) {
-      toast.error('Некорректный год выпуска');
+      toast.error(t('auth.register.validation.invalidYear'));
       return;
     }
 
     if (formData.ttaf < 0 || formData.landings < 0) {
-      toast.error('Некорректные данные о наработке');
+      toast.error(t('auth.register.validation.invalidHours'));
       return;
     }
 
     onSave(formData);
-    toast.success(mode === 'add' ? 'Объявление добавлено!' : 'Объявление обновлено!');
+    toast.success(mode === 'add' ? t('dashboard.notifications.listingAdded') : t('dashboard.notifications.listingUpdated'));
     onClose();
   };
 
@@ -129,7 +131,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-2xl font-semibold text-gray-900">
-            {mode === 'add' ? 'Добавить объявление' : 'Редактировать объявление'}
+            {mode === 'add' ? t('listing.addListing') : t('listing.edit') + ' ' + t('listing.listing')}
           </h2>
           <button
             onClick={onClose}
@@ -150,7 +152,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              Основная информация
+              {t('listing.basicInfo')}
             </button>
             <button
               onClick={() => setActiveTab('technical')}
@@ -160,7 +162,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              Технические характеристики
+              {t('listing.technicalSpecs')}
             </button>
             <button
               onClick={() => setActiveTab('media')}
@@ -170,7 +172,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              Медиа и документы
+              {t('listing.mediaAndDocuments')}
             </button>
           </div>
         </div>
@@ -182,7 +184,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Производитель *
+                    {t('form.manufacturer')} *
                   </label>
                   <select
                     name="manufacturer"
@@ -198,14 +200,14 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                     <option value="Dassault">Dassault</option>
                     <option value="Boeing">Boeing</option>
                     <option value="Airbus">Airbus</option>
-                    <option value="Embraer">Embraer</option>
-                    <option value="Hawker">Hawker</option>
+                    <option value="Comac">Comac</option>
+                    <option value="Mitsubishi">Mitsubishi</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Модель *
+                    {t('form.model')} *
                   </label>
                   <input
                     type="text"
@@ -213,14 +215,14 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                     value={formData.model}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Например: G650"
+                    placeholder={t('form.modelPlaceholder')}
                     required
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Серия
+                    {t('form.series')}
                   </label>
                   <input
                     type="text"
@@ -228,13 +230,13 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                     value={formData.series}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Например: 6062"
+                    placeholder={t('form.seriesPlaceholder')}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Регистрационный номер *
+                    {t('form.registration')} *
                   </label>
                   <input
                     type="text"
@@ -242,14 +244,14 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                     value={formData.registration}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Например: N123AB"
+                    placeholder={t('form.registrationPlaceholder')}
                     required
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Год выпуска *
+                    {t('form.year')} *
                   </label>
                   <input
                     type="number"
@@ -265,7 +267,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Цена *
+                    {t('form.price')} *
                   </label>
                   <div className="flex space-x-2">
                     <input
@@ -274,7 +276,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                       value={formData.price}
                       onChange={handleInputChange}
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                      placeholder="Например: 45000000"
+                      placeholder={t('form.pricePlaceholder')}
                       required
                     />
                     <select
@@ -292,7 +294,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Местоположение
+                    {t('form.location')}
                   </label>
                   <input
                     type="text"
@@ -306,7 +308,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Цвет
+                    {t('form.color')}
                   </label>
                   <input
                     type="text"
@@ -321,7 +323,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Описание
+                  {t('form.description')}
                 </label>
                 <textarea
                   name="description"
@@ -329,7 +331,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                   onChange={handleInputChange}
                   rows={4}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                  placeholder="Подробное описание самолета, его состояние, особенности..."
+                  placeholder={t('form.placeholders.description')}
                 />
               </div>
             </div>
@@ -354,7 +356,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Количество посадок
+                    {t('form.landings')}
                   </label>
                   <input
                     type="number"
@@ -368,7 +370,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    MTOW (максимальная взлетная масса)
+                    {t('form.mtow')}
                   </label>
                   <input
                     type="text"
@@ -382,7 +384,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Количество двигателей
+                    {t('form.engines')}
                   </label>
                   <input
                     type="number"
@@ -397,7 +399,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Тип двигателей
+                    {t('form.engineType')}
                   </label>
                   <input
                     type="text"
@@ -459,7 +461,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Фотографии самолета
+                  {t('form.photos')}
                 </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                   <PhotoIcon className="mx-auto h-12 w-12 text-gray-400" />
@@ -476,7 +478,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                       htmlFor="image-upload"
                       className="cursor-pointer bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
                     >
-                      Загрузить фотографии
+                      {t('form.uploadPhotos')}
                     </label>
                   </div>
                   <p className="mt-2 text-sm text-gray-500">
@@ -508,7 +510,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Документы
+                  {t('form.documents')}
                 </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                   <DocumentTextIcon className="mx-auto h-12 w-12 text-gray-400" />
@@ -524,7 +526,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                       htmlFor="document-upload"
                       className="cursor-pointer bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
                     >
-                      Загрузить документы
+                      {t('form.uploadDocuments')}
                     </label>
                   </div>
                   <p className="mt-2 text-sm text-gray-500">
@@ -564,7 +566,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                 onClick={onClose}
                 className="px-4 py-2 text-gray-600 hover:text-gray-900"
               >
-                Отмена
+                {t('common.cancel')}
               </button>
               {activeTab === 'basic' && (
                 <button
@@ -572,7 +574,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                   onClick={() => setActiveTab('technical')}
                   className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800"
                 >
-                  Далее →
+                  {t('common.next')} →
                 </button>
               )}
               {activeTab === 'technical' && (
@@ -581,7 +583,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                   onClick={() => setActiveTab('media')}
                   className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800"
                 >
-                  Далее →
+                  {t('common.next')} →
                 </button>
               )}
               {activeTab === 'media' && (
@@ -589,7 +591,7 @@ const AircraftFormModal: React.FC<AircraftFormModalProps> = ({
                   type="submit"
                   className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800"
                 >
-                  {mode === 'add' ? 'Добавить объявление' : 'Сохранить изменения'}
+                  {mode === 'add' ? t('listing.addListing') : t('common.save')}
                 </button>
               )}
             </div>

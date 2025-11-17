@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { XMarkIcon, PaperAirplaneIcon, UserIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 interface Message {
   id: string;
@@ -42,6 +43,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
   currentUserId,
   currentUserRole
 }) => {
+  const { t, i18n } = useTranslation();
   const [message, setMessage] = useState('');
   const [chats, setChats] = useState<Chat[]>([
     {
@@ -50,39 +52,39 @@ const ChatModal: React.FC<ChatModalProps> = ({
       aircraftTitle: 'Boeing 737-800 for Sale',
       aircraftPrice: '$25,000,000',
       buyerId: 'buyer1',
-      buyerName: 'Иван Петров',
+      buyerName: 'Ivan Petrov',
       sellerId: 'seller1',
-      sellerName: 'Алексей Сидоров',
+      sellerName: 'Alexey Sidorov',
       messages: [
         {
           id: '1',
           senderId: 'buyer1',
-          senderName: 'Иван Петров',
+          senderName: 'Ivan Petrov',
           senderRole: 'buyer',
-          text: 'Здравствуйте! Интересует ваш Boeing 737-800. Можете предоставить дополнительную информацию о техническом состоянии?',
+          text: t('messages.mockMessage1'),
           timestamp: new Date(Date.now() - 3600000),
           isRead: true
         },
         {
           id: '2',
           senderId: 'seller1',
-          senderName: 'Алексей Сидоров',
+          senderName: 'Alexey Sidorov',
           senderRole: 'seller',
-          text: 'Добрый день! Конечно, самолет в отличном состоянии. TTAF 25,000 часов, последний техосмотр 2 месяца назад. Есть полная документация.',
+          text: t('messages.mockMessage2'),
           timestamp: new Date(Date.now() - 1800000),
           isRead: true
         },
         {
           id: '3',
           senderId: 'buyer1',
-          senderName: 'Иван Петров',
+          senderName: 'Ivan Petrov',
           senderRole: 'buyer',
-          text: 'Спасибо! А когда можно организовать осмотр?',
+          text: t('messages.mockMessage3'),
           timestamp: new Date(Date.now() - 900000),
           isRead: false
         }
       ],
-      lastMessage: 'Спасибо! А когда можно организовать осмотр?',
+      lastMessage: t('messages.mockMessage3'),
       lastMessageTime: new Date(Date.now() - 900000),
       unreadCount: 1
     },
@@ -92,30 +94,30 @@ const ChatModal: React.FC<ChatModalProps> = ({
       aircraftTitle: 'Airbus A320neo',
       aircraftPrice: '$35,000,000',
       buyerId: 'buyer2',
-      buyerName: 'Мария Козлова',
+      buyerName: 'Maria Kozlova',
       sellerId: 'seller1',
-      sellerName: 'Алексей Сидоров',
+      sellerName: 'Alexey Sidorov',
       messages: [
         {
           id: '4',
           senderId: 'buyer2',
-          senderName: 'Мария Козлова',
+          senderName: 'Maria Kozlova',
           senderRole: 'buyer',
-          text: 'Интересует Airbus A320neo. Какой год выпуска?',
+          text: t('messages.mockMessage4'),
           timestamp: new Date(Date.now() - 7200000),
           isRead: true
         },
         {
           id: '5',
           senderId: 'seller1',
-          senderName: 'Алексей Сидоров',
+          senderName: 'Alexey Sidorov',
           senderRole: 'seller',
-          text: '2018 год выпуска, TTAF 12,000 часов. Самолет практически новый.',
+          text: t('messages.mockMessage5'),
           timestamp: new Date(Date.now() - 3600000),
           isRead: true
         }
       ],
-      lastMessage: '2018 год выпуска, TTAF 12,000 часов. Самолет практически новый.',
+      lastMessage: t('messages.mockMessage5'),
       lastMessageTime: new Date(Date.now() - 3600000),
       unreadCount: 0
     }
@@ -144,7 +146,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
     const newMessage: Message = {
       id: Date.now().toString(),
       senderId: currentUserId,
-      senderName: currentUserRole === 'buyer' ? 'Вы' : 'Вы',
+      senderName: t('messages.you'),
       senderRole: currentUserRole,
       text: message.trim(),
       timestamp: new Date(),
@@ -175,7 +177,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
     } : null);
     
     setMessage('');
-    toast.success('Сообщение отправлено');
+    toast.success(t('messages.messageSent'));
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -186,7 +188,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('ru-RU', {
+    return date.toLocaleTimeString(i18n.language === 'ru' ? 'ru-RU' : 'en-US', {
       hour: '2-digit',
       minute: '2-digit'
     });
@@ -199,9 +201,9 @@ const ChatModal: React.FC<ChatModalProps> = ({
     if (diffInHours < 24) {
       return formatTime(date);
     } else if (diffInHours < 48) {
-      return 'Вчера';
+      return t('messages.yesterday');
     } else {
-      return date.toLocaleDateString('ru-RU');
+      return date.toLocaleDateString(i18n.language === 'ru' ? 'ru-RU' : 'en-US');
     }
   };
 
@@ -212,7 +214,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
       <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl h-[80vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">Сообщения</h2>
+          <h2 className="text-lg font-semibold text-gray-900">{t('messages.title')}</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600"
@@ -225,7 +227,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
           {/* Chat List */}
           <div className="w-1/3 border-r border-gray-200 flex flex-col">
             <div className="p-4 border-b border-gray-200">
-              <h3 className="font-medium text-gray-900">Чаты</h3>
+              <h3 className="font-medium text-gray-900">{t('messages.chats')}</h3>
             </div>
             <div className="flex-1 overflow-y-auto">
               {chats.map((chat) => {
@@ -280,7 +282,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-medium text-gray-900">{activeChat.aircraftPrice}</p>
-                      <p className="text-xs text-gray-500">Цена самолета</p>
+                      <p className="text-xs text-gray-500">{t('messages.aircraftPrice')}</p>
                     </div>
                   </div>
                 </div>
@@ -325,7 +327,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      placeholder="Введите сообщение..."
+                      placeholder={t('messages.enterMessage')}
                       className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black focus:border-black resize-none"
                       rows={2}
                     />
@@ -343,7 +345,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
               <div className="flex-1 flex items-center justify-center">
                 <div className="text-center">
                   <UserIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">Выберите чат для начала общения</p>
+                  <p className="text-gray-600">{t('messages.selectChat')}</p>
                 </div>
               </div>
             )}
